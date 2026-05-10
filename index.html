@@ -59,6 +59,7 @@
         function selectType(el) { document.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); selectedType = el.innerText; }
 
         function processShorten() {
+            console.log("Button clicked!"); // Check console
             let urlInput = document.getElementById('linkInput').value.trim();
             const res = document.getElementById('result-container');
             const btn = document.getElementById('shortBtn');
@@ -70,10 +71,11 @@
             res.innerText = "Connecting...";
             btn.disabled = true;
 
-            // This unique name helps us get the data back without a Red Cross/CORS error
             const cbName = 'beam_cb_' + Date.now();
+            console.log("Running JSONP with callback:", cbName);
 
             window[cbName] = function(data) {
+                console.log("Data received:", data);
                 if (data.shorturl) {
                     res.innerText = data.shorturl;
                     res.classList.add('glow-active');
@@ -82,14 +84,18 @@
                     res.innerText = "Error: " + (data.errormessage || "Invalid URL");
                 }
                 btn.disabled = false;
-                document.getElementById('jsonp_script').remove();
+                const oldScript = document.getElementById('jsonp_script');
+                if(oldScript) oldScript.remove();
                 delete window[cbName];
             };
 
-            // This "JSONP" trick is how the other site likely bypasses the CORS blocks
             const script = document.createElement('script');
             script.id = 'jsonp_script';
             script.src = `https://is.gd{cbName}&url=${encodeURIComponent(urlInput)}`;
+            script.onerror = function() {
+                res.innerText = "Connection Failed. API blocked.";
+                btn.disabled = false;
+            };
             document.body.appendChild(script);
         }
 
