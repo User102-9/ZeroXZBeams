@@ -43,10 +43,10 @@
             <div class="option" onclick="selectType(this)">Profile</div>
             <div class="option" onclick="selectType(this)">Private Server</div>
         </div>
-        <input type="text" id="linkInput" class="input-box" placeholder="Paste link (https://...)">
+        <input type="text" id="linkInput" class="input-box" placeholder="Paste link (roblox.com)">
         <button class="main-btn" id="shortBtn" style="margin-top: 20px; padding: 10px 40px;" onclick="processShorten()">Shorten</button>
         <div id="result-container" onclick="copyToClipboard()"></div>
-        <p id="copy-status" style="font-size: 0.7rem; color: #888; margin-top: 5px; display: none;">Click to copy!</p>
+        <p id="copy-status" style="font-size: 0.7rem; color: #888; margin-top: 5px; display: none;">Click box to copy!</p>
     </div>
 
     <div id="gen-screen" class="screen"><h1>GENERATORS</h1></div>
@@ -59,36 +59,52 @@
         function selectType(el) { document.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); selectedType = el.innerText; }
 
         async function processShorten() {
-            const urlInput = document.getElementById('linkInput').value.trim();
+            let urlInput = document.getElementById('linkInput').value.trim();
             const res = document.getElementById('result-container');
             const btn = document.getElementById('shortBtn');
-            if (!urlInput.startsWith('http')) return alert("Use a valid link starting with http/https");
+
+            // Fix: Add protocol if user forgot it
+            if (urlInput && !urlInput.startsWith('http')) {
+                urlInput = 'https://' + urlInput;
+            }
+
+            if (!selectedType) return alert("Select 'Profile' or 'Private Server' first!");
+            if (!urlInput.startsWith('https://')) return alert("Use a real link!");
 
             res.style.display = 'block';
             res.innerText = "Processing...";
             btn.disabled = true;
 
             try {
-                // Calls your private API
+                // Fetch from our internal API (Step 1)
                 const response = await fetch(`/api/shorten?url=${encodeURIComponent(urlInput)}`);
                 const data = await response.text();
-                if (data.includes("https://is.gd")) {
+
+                if (response.ok && data.startsWith("https")) {
                     res.innerText = data;
                     res.classList.add('glow-active');
                     document.getElementById('copy-status').style.display = "block";
-                } else { res.innerText = "Error: Invalid link."; }
-            } catch (e) { res.innerText = "Server Error."; } finally { btn.disabled = false; }
+                } else {
+                    res.innerText = "Invalid Link: " + data;
+                }
+            } catch (e) {
+                res.innerText = "Server Error. Check your Vercel logs.";
+            } finally {
+                btn.disabled = false;
+            }
         }
 
         function copyToClipboard() {
             const text = document.getElementById('result-container').innerText;
             if (text.startsWith("http")) {
                 navigator.clipboard.writeText(text);
-                document.getElementById('copy-status').innerText = "COPIED!";
-                setTimeout(() => document.getElementById('copy-status').innerText = "Click to copy!", 2000);
+                const status = document.getElementById('copy-status');
+                status.innerText = "COPIED!";
+                setTimeout(() => status.innerText = "Click box to copy!", 2000);
             }
         }
 
+        // Star Animation
         function createStar() {
             const star = document.createElement('div');
             star.className = 'star';
