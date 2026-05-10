@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZeroBeams</title>
     <style>
+        /* YOUR ORIGINAL STYLES */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0a0a;
+            background: #0a0a0a; /* Changed to Black for the stars */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             color: #ffffff;
@@ -16,28 +17,33 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 2; }
 
-        /* White Discord Button Top Right */
-        .discord-btn-top {
-            position: absolute; top: 20px; right: 20px;
-            background: #ffffff; color: #000000;
-            text-decoration: none; padding: 10px 20px;
-            border-radius: 8px; font-weight: 900; font-size: 0.8rem;
-            z-index: 1000; text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-            transition: 0.3s;
-        }
-        .discord-btn-top:hover { background: #ff0000; color: #ffffff; }
-
+        /* Changed to ZeroBeams Red Theme */
         .header h1 {
-            font-size: 3.5rem; font-weight: 900; margin-bottom: 15px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
             background: linear-gradient(45deg, #ff0000, #800000);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; text-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
         }
 
-        .star { position: absolute; color: #ff0000; pointer-events: none; z-index: 1; font-size: 12px; animation: fall linear forwards; }
-        @keyframes fall { from { transform: translateY(-50px); opacity: 1; } to { transform: translateY(110vh); opacity: 0; } }
+        /* FALLING STARS CSS */
+        .star {
+            position: absolute;
+            color: #ff0000;
+            pointer-events: none;
+            z-index: 1;
+            font-size: 12px;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            from { transform: translateY(-50px); opacity: 1; }
+            to { transform: translateY(110vh); opacity: 0; }
+        }
 
+        /* ALL YOUR OTHER ORIGINAL CSS CLASSES BELOW */
         .header { text-align: center; padding: 40px 0; border-bottom: 1px solid #333; margin-bottom: 40px; }
         .header .subtitle { font-size: 1.2rem; color: #888888; font-weight: 300; }
         .nav-section { margin-bottom: 50px; }
@@ -45,7 +51,8 @@
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .service-card { background: #1a1a1a; border: 2px solid #333; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
         .service-card:hover { background: #222; border-color: #ff0000; transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
-        .service-card h3 { font-size: 1.2rem; color: #ffffff; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; }
+        .service-card.recommended { background: #1a1a1a; border-color: #444; }
+        .service-card h3 { font-size: 1.2rem; color: #ffffff; margin-bottom: 8px; font-weight: 600; }
         .service-card p { color: #aaa; font-size: 0.9rem; }
         .service-page { display: none; animation: fadeIn 0.3s ease; }
         .service-page.active { display: block; }
@@ -65,12 +72,11 @@
         .result-box { background: #1a1a1a; border: 1px solid #ff0000; border-radius: 12px; padding: 25px; margin-top: 20px; display: none; }
         .result-box.show { display: block; }
         .result-text { word-break: break-all; margin-bottom: 15px; padding: 12px; background: #0d0d0d; border: 1px solid #333; border-radius: 6px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 0.9rem; }
-    </style>
+</style>
 </head>
 <body>
-    <a href="https://discord.gg" class="discord-btn-top" target="_blank">OUR DISCORD</a>
-
     <div class="container">
+        <!-- Home Page -->
         <div id="homePage">
             <div class="header">
                 <h1>ZeroBeams</h1>
@@ -78,33 +84,35 @@
             </div>
 
             <div class="nav-section">
-                <h2>Dashboard</h2>
+                <h2>Select URL Shortener</h2>
                 <div class="services-grid">
-                    <div class="service-card" onclick="alert('Main Dashboard coming soon!')">
-                        <h3>Main Dashboard</h3>
-                        <p>Overview of your tools</p>
-                    </div>
-                    <div class="service-card" onclick="openService('is.gd')">
-                        <h3>Hyperlink</h3>
+                    <div class="service-card recommended" onclick="openService('is.gd')">
+                        <h3>is.gd</h3>
                         <p>Fast and reliable shortening service</p>
-                    </div>
-                    <div class="service-card" onclick="alert('Questions feed coming soon!')">
-                        <h3>Questions</h3>
-                        <p>Community and support</p>
                     </div>
                 </div>
             </div>
+
+            <div class="discord-section">
+                <a class="discord-btn" href="https://discord.gg" target="_blank" rel="noopener noreferrer">Join Discord Community</a>
+            </div>
         </div>
 
+        <!-- Service Page -->
         <div id="servicePage" class="service-page">
             <div class="service-header">
-                <button class="back-btn" onclick="goBack()">← Back</button>
+                <button class="back-btn" onclick="goBack()">
+                    ← Back to Services
+                </button>
                 <h2 class="service-title" id="serviceTitle">is.gd</h2>
             </div>
+
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('shorten')">Shorten URL</button>
                 <button class="tab" onclick="switchTab('unshorten')">Unshorten URL</button>
             </div>
+
+            <!-- Shorten URL Tab -->
             <div id="shortenTab">
                 <div class="form-container">
                     <div class="form-group">
@@ -116,13 +124,36 @@
                             <option value="any">Any Link</option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label class="form-label">Enter Your Link</label>
-                        <input type="url" class="form-input" id="urlInput" placeholder="https://roblox.com">
+                        <input type="url" class="form-input" id="urlInput" placeholder="https://roblox.com.py">
+                        <div class="form-help">Paste your full URL here to be shortened</div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Custom Slug (Optional)</label>
+                        <input type="text" class="form-input" id="customSlug" placeholder="your-custom-slug">
+                        <div class="form-help">Leave empty for random slug generation</div>
+                    </div>
+
                     <button class="generate-btn" onclick="generateLink()">Generate Shortened Link</button>
                 </div>
             </div>
+
+            <!-- Unshorten URL Tab -->
+            <div id="unshortenTab" style="display: none;">
+                <div class="form-container">
+                    <div class="form-group">
+                        <label class="form-label">Enter Shortened URL</label>
+                        <input type="url" class="form-input" id="shortenedUrlInput" placeholder="https://is.gd">
+                        <div class="form-help">Paste the shortened URL to reveal the original</div>
+                    </div>
+
+                    <button class="generate-btn" onclick="unshortenLink()">Reveal Original URL</button>
+                </div>
+            </div>
+
             <div class="result-box" id="resultBox">
                 <div class="result-label">Generated Result:</div>
                 <div class="result-text" id="resultText"></div>
@@ -131,64 +162,90 @@
         </div>
     </div>
     <script>
+        // Navigation
         function openService(service) {
             document.getElementById('homePage').style.display = 'none';
             document.getElementById('servicePage').classList.add('active');
             document.getElementById('serviceTitle').textContent = service;
             document.getElementById('resultBox').classList.remove('show');
         }
+
         function goBack() {
             document.getElementById('servicePage').classList.remove('active');
             document.getElementById('homePage').style.display = 'block';
+            document.getElementById('resultBox').classList.remove('show');
         }
+
         function switchTab(tab) {
             const tabs = document.querySelectorAll('.tab');
             tabs.forEach(t => t.classList.remove('active'));
             if (tab === 'shorten') {
                 tabs[0].classList.add('active');
                 document.getElementById('shortenTab').style.display = 'block';
+                document.getElementById('unshortenTab').style.display = 'none';
             } else {
                 tabs[1].classList.add('active');
                 document.getElementById('shortenTab').style.display = 'none';
+                document.getElementById('unshortenTab').style.display = 'block';
             }
+            document.getElementById('resultBox').classList.remove('show');
         }
 
         async function generateLink() {
             const urlInput = document.getElementById('urlInput');
             const option = document.getElementById('optionSelect').value;
+            const customSlug = document.getElementById('customSlug').value.trim();
             const originalUrl = urlInput.value.trim();
-            if (!originalUrl) { alert('Enter a URL!'); return; }
+            if (!originalUrl) { alert('Please enter a URL!'); return; }
 
             const resultText = document.getElementById('resultText');
-            resultText.innerHTML = '<span style="color:#888">Processing...</span>';
+            resultText.innerHTML = '<span class="loading">Generating secure link...</span>';
             document.getElementById('resultBox').classList.add('show');
 
             try {
-                const cbName = 'beam_cb_' + Date.now();
-                window[cbName] = function(data) {
-                    if (data.shorturl) {
-                        let displayUrl = originalUrl;
-                        if(option === 'profile') displayUrl = "https://roblox.com";
-                        if(option === 'private-server') displayUrl = "https://roblox.com";
-                        resultText.textContent = `[${displayUrl}](${data.shorturl})`;
-                    } else {
-                        resultText.textContent = "Error: " + (data.errormessage || "Invalid URL");
-                    }
-                    delete window[cbName];
-                    document.getElementById('temp_script').remove();
-                };
-                const script = document.createElement('script');
-                script.id = 'temp_script';
-                script.src = `https://is.gd{cbName}&url=${encodeURIComponent(originalUrl)}`;
-                document.body.appendChild(script);
-            } catch (e) { resultText.textContent = "Connection Error."; }
+                const serviceName = document.getElementById('serviceTitle').textContent;
+                let shortenedUrl;
+                if (serviceName === 'is.gd' || serviceName === 'v.gd') {
+                    const apiUrl = `https://${serviceName}/create.php?format=json&url=${encodeURIComponent(originalUrl)}${customSlug ? `&shorturl=${customSlug}` : ''}`;
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    if (!response.ok || !data.shorturl) throw new Error(data.errormessage || "Shortening service unavailable");
+                    shortenedUrl = data.shorturl;
+                } else {
+                    const slug = customSlug || Math.random().toString(36).substr(2, 6);
+                    shortenedUrl = `https://${serviceName.toLowerCase()}/${slug}`;
+                }
+
+                let displayUrl;
+                const userId = originalUrl.match(/users\/(\d+)/)?.[1] || 'ID';
+                const groupId = originalUrl.match(/(communities|groups)\/(\d+)/)?.[2] || 'ID';
+                const serverCode = originalUrl.match(/code=([a-f0-9]+)/i)?.[1] || 'abc123';
+
+                switch (option) {
+                    case 'profile': displayUrl = `https__:__//://roblox.com{userId}/profile`; break;
+                    case 'group': displayUrl = `https__:__//://roblox.com{groupId}`; break;
+                    case 'private-server': displayUrl = `https_:_//://roblox.com{serverCode}&type=Server`; break;
+                    default: displayUrl = originalUrl.replace('robiox.com.tg', 'roblox.com');
+                }
+                resultText.textContent = `[${displayUrl}](${shortenedUrl})`;
+            } catch (error) { resultText.textContent = `Error: ${error.message}`; }
+        }
+
+        async function unshortenLink() {
+            const url = document.getElementById('shortenedUrlInput').value.trim();
+            if (!url) { alert('Please enter a shortened URL!'); return; }
+            document.getElementById('resultText').innerHTML = '<span class="loading">Revealing original URL...</span>';
+            document.getElementById('resultBox').classList.add('show');
+            // Unshorten logic here...
         }
 
         function copyResult() {
-            navigator.clipboard.writeText(document.getElementById('resultText').innerText);
+            const text = document.getElementById('resultText').innerText;
+            navigator.clipboard.writeText(text);
             alert("Copied!");
         }
 
+        // Falling Stars Script
         function createStar() {
             const star = document.createElement('div');
             star.className = 'star';
