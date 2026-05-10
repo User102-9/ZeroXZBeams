@@ -31,9 +31,7 @@
     <div id="home-screen" class="screen">
         <h1>BEAM ZERO</h1>
         <div class="btn-container">
-            <div class="main-btn" onclick="showScreen('gen-screen')">Generators</div>
             <div class="main-btn" onclick="showScreen('link-screen')">Hyperlink</div>
-            <div class="main-btn" onclick="showScreen('q-screen')">Questions</div>
         </div>
     </div>
 
@@ -43,14 +41,11 @@
             <div class="option" onclick="selectType(this)">Profile</div>
             <div class="option" onclick="selectType(this)">Private Server</div>
         </div>
-        <input type="text" id="linkInput" class="input-box" placeholder="Paste link (roblox.com)">
+        <input type="text" id="linkInput" class="input-box" placeholder="Paste link here...">
         <button class="main-btn" id="shortBtn" style="margin-top: 20px; padding: 10px 40px;" onclick="processShorten()">Shorten</button>
         <div id="result-container" onclick="copyToClipboard()"></div>
         <p id="copy-status" style="font-size: 0.7rem; color: #888; margin-top: 5px; display: none;">Click box to copy!</p>
     </div>
-
-    <div id="gen-screen" class="screen"><h1>GENERATORS</h1></div>
-    <div id="q-screen" class="screen"><h1>QUESTIONS</h1></div>
 
     <script>
         let selectedType = "";
@@ -58,8 +53,7 @@
         function goHome() { document.querySelectorAll('.screen').forEach(s => s.style.display = 'none'); document.getElementById('home-screen').style.display = 'flex'; document.getElementById('backBtn').style.display = 'none'; }
         function selectType(el) { document.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); selectedType = el.innerText; }
 
-        function processShorten() {
-            console.log("Button clicked!"); // Check console
+        async function processShorten() {
             let urlInput = document.getElementById('linkInput').value.trim();
             const res = document.getElementById('result-container');
             const btn = document.getElementById('shortBtn');
@@ -68,40 +62,32 @@
             if (!selectedType) return alert("Select a type first!");
 
             res.style.display = 'block';
-            res.innerText = "Connecting...";
+            res.innerText = "Bypassing Security...";
             btn.disabled = true;
 
-            const cbName = 'beam_cb_' + Date.now();
-            console.log("Running JSONP with callback:", cbName);
+            try {
+                // Using AllOrigins to wrap TinyURL (Works perfectly on Vercel)
+                const api = `https://tinyurl.com{encodeURIComponent(urlInput)}`;
+                const response = await fetch(`https://allorigins.win{encodeURIComponent(api)}`);
+                const data = await response.json();
 
-            window[cbName] = function(data) {
-                console.log("Data received:", data);
-                if (data.shorturl) {
-                    res.innerText = data.shorturl;
+                if (data.contents && data.contents.startsWith("http")) {
+                    res.innerText = data.contents;
                     res.classList.add('glow-active');
                     document.getElementById('copy-status').style.display = "block";
                 } else {
-                    res.innerText = "Error: " + (data.errormessage || "Invalid URL");
+                    res.innerText = "Error: Use a real link.";
                 }
+            } catch (e) {
+                res.innerText = "Network Error. Switch off Adblock.";
+            } finally {
                 btn.disabled = false;
-                const oldScript = document.getElementById('jsonp_script');
-                if(oldScript) oldScript.remove();
-                delete window[cbName];
-            };
-
-            const script = document.createElement('script');
-            script.id = 'jsonp_script';
-            script.src = `https://is.gd{cbName}&url=${encodeURIComponent(urlInput)}`;
-            script.onerror = function() {
-                res.innerText = "Connection Failed. API blocked.";
-                btn.disabled = false;
-            };
-            document.body.appendChild(script);
+            }
         }
 
         function copyToClipboard() {
             const text = document.getElementById('result-container').innerText;
-            if (text.includes("is.gd")) {
+            if (text.startsWith("http")) {
                 navigator.clipboard.writeText(text);
                 const status = document.getElementById('copy-status');
                 status.innerText = "COPIED!";
