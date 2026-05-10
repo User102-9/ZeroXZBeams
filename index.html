@@ -1,261 +1,212 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroBeams</title>
-    <style>
-        /* YOUR ORIGINAL STYLES */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #0a0a0a; /* Changed to Black for the stars */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 2; }
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        background: #0a0a0a;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        color: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 2; }
 
-        /* Changed to ZeroBeams Red Theme */
-        .header h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: linear-gradient(45deg, #ff0000, #800000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
-        }
+    /* New Top Right Discord Button */
+    .discord-btn-top {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #ffffff;
+        color: #000000;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 900;
+        font-size: 0.8rem;
+        z-index: 1000;
+        text-transform: uppercase;
+        transition: 0.3s;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+    .discord-btn-top:hover {
+        background: #ff0000;
+        color: #ffffff;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    }
 
-        /* FALLING STARS CSS */
-        .star {
-            position: absolute;
-            color: #ff0000;
-            pointer-events: none;
-            z-index: 1;
-            font-size: 12px;
-            animation: fall linear forwards;
-        }
-        @keyframes fall {
-            from { transform: translateY(-50px); opacity: 1; }
-            to { transform: translateY(110vh); opacity: 0; }
-        }
+    .header h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #ff0000, #800000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
+        text-align: center;
+    }
 
-        /* ALL YOUR OTHER ORIGINAL CSS CLASSES BELOW */
-        .header { text-align: center; padding: 40px 0; border-bottom: 1px solid #333; margin-bottom: 40px; }
-        .header .subtitle { font-size: 1.2rem; color: #888888; font-weight: 300; }
-        .nav-section { margin-bottom: 50px; }
-        .nav-section h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 20px; text-align: center; font-weight: 600; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; }
-        .service-card { background: #1a1a1a; border: 2px solid #333; border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .service-card:hover { background: #222; border-color: #ff0000; transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
-        .service-card.recommended { background: #1a1a1a; border-color: #444; }
-        .service-card h3 { font-size: 1.2rem; color: #ffffff; margin-bottom: 8px; font-weight: 600; }
-        .service-card p { color: #aaa; font-size: 0.9rem; }
-        .service-page { display: none; animation: fadeIn 0.3s ease; }
-        .service-page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .service-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #333; }
-        .back-btn { background: #333; border: none; color: #ffffff; cursor: pointer; font-size: 1rem; padding: 10px 20px; border-radius: 8px; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
-        .service-title { font-size: 2.2rem; color: #ffffff; font-weight: 700; }
-        .tabs { display: flex; margin-bottom: 30px; border-radius: 8px; overflow: hidden; background: #1a1a1a; border: 1px solid #333; }
-        .tab { flex: 1; padding: 15px 20px; background: transparent; border: none; color: #aaa; cursor: pointer; transition: all 0.3s ease; font-size: 1rem; }
-        .tab.active { background: #ff0000; color: #ffffff; }
-        .form-container { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 30px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 25px; }
-        .form-label { display: block; margin-bottom: 8px; color: #ffffff; font-weight: 500; font-size: 0.95rem; }
-        .form-input, .form-select { width: 100%; padding: 12px 16px; border: 2px solid #333; border-radius: 8px; background: #0d0d0d; color: #ffffff; font-size: 1rem; transition: all 0.3s ease; }
-        .generate-btn { width: 100%; background: #ff0000; border: none; border-radius: 8px; padding: 15px; color: #ffffff; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .generate-btn:hover { background: #cc0000; transform: translateY(-2px); }
-        .result-box { background: #1a1a1a; border: 1px solid #ff0000; border-radius: 12px; padding: 25px; margin-top: 20px; display: none; }
-        .result-box.show { display: block; }
-        .result-text { word-break: break-all; margin-bottom: 15px; padding: 12px; background: #0d0d0d; border: 1px solid #333; border-radius: 6px; color: #ffffff; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+    .header { text-align: center; padding: 60px 0; border-bottom: 1px solid #333; margin-bottom: 40px; }
+    .header .subtitle { font-size: 1.2rem; color: #888888; font-weight: 300; }
+
+    .nav-section h2 { font-size: 1.8rem; color: #ffffff; margin-bottom: 20px; text-align: center; font-weight: 600; }
+    
+    /* Menu Grid */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; }
+    .service-card { background: #1a1a1a; border: 2px solid #333; border-radius: 12px; padding: 25px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
+    .service-card:hover { background: #222; border-color: #ff0000; transform: translateY(-3px); box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
+    .service-card h3 { font-size: 1.3rem; color: #ffffff; margin-bottom: 5px; font-weight: 700; text-transform: uppercase; }
+    .service-card p { color: #888; font-size: 0.85rem; }
+
+    /* Service Pages */
+    .service-page { display: none; animation: fadeIn 0.3s ease; }
+    .service-page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Falling Stars */
+    .star { position: absolute; color: #ff0000; pointer-events: none; z-index: 1; font-size: 12px; animation: fall linear forwards; }
+    @keyframes fall { from { transform: translateY(-50px); opacity: 1; } to { transform: translateY(110vh); opacity: 0; } }
+
+    /* Shared Elements */
+    .back-btn { background: #333; border: none; color: #ffffff; cursor: pointer; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; transition: 0.3s; }
+    .back-btn:hover { background: #ff0000; }
+    .tabs { display: flex; margin-bottom: 30px; border-radius: 8px; overflow: hidden; background: #1a1a1a; border: 1px solid #333; }
+    .tab { flex: 1; padding: 15px 20px; background: transparent; border: none; color: #aaa; cursor: pointer; font-weight: bold; }
+    .tab.active { background: #ff0000; color: #ffffff; }
+    .form-container { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 30px; }
+    .generate-btn { width: 100%; background: #ff0000; border: none; border-radius: 8px; padding: 15px; color: #ffffff; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    .result-box { background: #1a1a1a; border: 1px solid #ff0000; border-radius: 12px; padding: 25px; margin-top: 20px; display: none; text-align: center; }
+    .result-box.show { display: block; }
+    .result-text { word-break: break-all; margin-bottom: 15px; padding: 12px; background: #0d0d0d; border-radius: 6px; font-family: monospace; }
 </style>
-</head>
 <body>
+    <!-- Discord Button Top Right -->
+    <a href="https://discord.gg/TCGuHsda" class="discord-btn-top" target="_blank">Join Discord</a>
+
     <div class="container">
         <!-- Home Page -->
         <div id="homePage">
             <div class="header">
                 <h1>ZeroBeams</h1>
-                <p class="subtitle">Professional URL Shortening Services</p>
+                <p class="subtitle">Professional Link Management & Tooling</p>
             </div>
 
             <div class="nav-section">
-                <h2>Select URL Shortener</h2>
                 <div class="services-grid">
-                    <div class="service-card recommended" onclick="openService('is.gd')">
-                        <h3>is.gd</h3>
-                        <p>Fast and reliable shortening service</p>
+                    <!-- Main Dashboard Card -->
+                    <div class="service-card" onclick="alert('Dashboard coming soon!')">
+                        <h3>Main Dashboard</h3>
+                        <p>Overview of your current tools</p>
+                    </div>
+
+                    <!-- Hyperlink Card -->
+                    <div class="service-card" onclick="openService('Hyperlink')">
+                        <h3>Hyperlink</h3>
+                        <p>Advanced Roblox link shortening</p>
+                    </div>
+
+                    <!-- Questions Card -->
+                    <div class="service-card" onclick="alert('Questions feed coming soon!')">
+                        <h3>Questions</h3>
+                        <p>Community support and public feed</p>
                     </div>
                 </div>
             </div>
-
-            <div class="discord-section">
-                <a class="discord-btn" href="https://discord.gg" target="_blank" rel="noopener noreferrer">Join Discord Community</a>
-            </div>
         </div>
 
-        <!-- Service Page -->
+        <!-- Service Page (Hyperlink) -->
         <div id="servicePage" class="service-page">
-            <div class="service-header">
-                <button class="back-btn" onclick="goBack()">
-                    ← Back to Services
-                </button>
-                <h2 class="service-title" id="serviceTitle">is.gd</h2>
-            </div>
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2 id="serviceTitle" style="text-align:center; margin-bottom:20px; text-transform:uppercase;">Hyperlink</h2>
 
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('shorten')">Shorten URL</button>
                 <button class="tab" onclick="switchTab('unshorten')">Unshorten URL</button>
             </div>
 
-            <!-- Shorten URL Tab -->
-            <div id="shortenTab">
-                <div class="form-container">
-                    <div class="form-group">
-                        <label class="form-label">Select Link Type</label>
-                        <select class="form-select" id="optionSelect">
-                            <option value="private-server">Private Server</option>
-                            <option value="profile">Profile</option>
-                            <option value="group">Group</option>
-                            <option value="any">Any Link</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Enter Your Link</label>
-                        <input type="url" class="form-input" id="urlInput" placeholder="https://roblox.com.py">
-                        <div class="form-help">Paste your full URL here to be shortened</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Custom Slug (Optional)</label>
-                        <input type="text" class="form-input" id="customSlug" placeholder="your-custom-slug">
-                        <div class="form-help">Leave empty for random slug generation</div>
-                    </div>
-
-                    <button class="generate-btn" onclick="generateLink()">Generate Shortened Link</button>
+            <div id="shortenTab" class="form-container">
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; margin-bottom:5px;">Select Type</label>
+                    <select id="optionSelect" style="width:100%; padding:10px; background:#000; color:white; border:1px solid #333;">
+                        <option value="private-server">Private Server</option>
+                        <option value="profile">Profile</option>
+                        <option value="any">Any Link</option>
+                    </select>
                 </div>
-            </div>
-
-            <!-- Unshorten URL Tab -->
-            <div id="unshortenTab" style="display: none;">
-                <div class="form-container">
-                    <div class="form-group">
-                        <label class="form-label">Enter Shortened URL</label>
-                        <input type="url" class="form-input" id="shortenedUrlInput" placeholder="https://is.gd">
-                        <div class="form-help">Paste the shortened URL to reveal the original</div>
-                    </div>
-
-                    <button class="generate-btn" onclick="unshortenLink()">Reveal Original URL</button>
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; margin-bottom:5px;">Target URL</label>
+                    <input type="url" id="urlInput" placeholder="https://roblox.com..." style="width:100%; padding:10px; background:#000; color:white; border:1px solid #333;">
                 </div>
+                <button class="generate-btn" onclick="generateLink()">Generate Link</button>
             </div>
 
             <div class="result-box" id="resultBox">
-                <div class="result-label">Generated Result:</div>
                 <div class="result-text" id="resultText"></div>
-                <button class="generate-btn" onclick="copyResult()">Copy to Clipboard</button>
+                <button class="generate-btn" onclick="copyResult()">Copy Result</button>
             </div>
         </div>
     </div>
-    <script>
-        // Navigation
-        function openService(service) {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('servicePage').classList.add('active');
-            document.getElementById('serviceTitle').textContent = service;
-            document.getElementById('resultBox').classList.remove('show');
-        }
+<script>
+    function openService(service) {
+        document.getElementById('homePage').style.display = 'none';
+        document.getElementById('servicePage').classList.add('active');
+        document.getElementById('resultBox').classList.remove('show');
+    }
 
-        function goBack() {
-            document.getElementById('servicePage').classList.remove('active');
-            document.getElementById('homePage').style.display = 'block';
-            document.getElementById('resultBox').classList.remove('show');
-        }
+    function goBack() {
+        document.getElementById('servicePage').classList.remove('active');
+        document.getElementById('homePage').style.display = 'block';
+    }
 
-        function switchTab(tab) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            if (tab === 'shorten') {
-                tabs[0].classList.add('active');
-                document.getElementById('shortenTab').style.display = 'block';
-                document.getElementById('unshortenTab').style.display = 'none';
-            } else {
-                tabs[1].classList.add('active');
-                document.getElementById('shortenTab').style.display = 'none';
-                document.getElementById('unshortenTab').style.display = 'block';
-            }
-            document.getElementById('resultBox').classList.remove('show');
-        }
+    // YOUR WORKING GENERATE LOGIC
+    async function generateLink() {
+        const urlInput = document.getElementById('urlInput');
+        const option = document.getElementById('optionSelect').value;
+        const originalUrl = urlInput.value.trim();
+        if (!originalUrl) { alert('Enter a URL!'); return; }
 
-        async function generateLink() {
-            const urlInput = document.getElementById('urlInput');
-            const option = document.getElementById('optionSelect').value;
-            const customSlug = document.getElementById('customSlug').value.trim();
-            const originalUrl = urlInput.value.trim();
-            if (!originalUrl) { alert('Please enter a URL!'); return; }
+        const resultText = document.getElementById('resultText');
+        resultText.innerHTML = '<span style="color:#888">Processing...</span>';
+        document.getElementById('resultBox').classList.add('show');
 
-            const resultText = document.getElementById('resultText');
-            resultText.innerHTML = '<span class="loading">Generating secure link...</span>';
-            document.getElementById('resultBox').classList.add('show');
-
-            try {
-                const serviceName = document.getElementById('serviceTitle').textContent;
-                let shortenedUrl;
-                if (serviceName === 'is.gd' || serviceName === 'v.gd') {
-                    const apiUrl = `https://${serviceName}/create.php?format=json&url=${encodeURIComponent(originalUrl)}${customSlug ? `&shorturl=${customSlug}` : ''}`;
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-                    if (!response.ok || !data.shorturl) throw new Error(data.errormessage || "Shortening service unavailable");
-                    shortenedUrl = data.shorturl;
+        try {
+            // Using the JSONP trick that you said works
+            const cbName = 'beam_cb_' + Date.now();
+            window[cbName] = function(data) {
+                if (data.shorturl) {
+                    let displayUrl = originalUrl;
+                    if(option === 'profile') displayUrl = "https://roblox.com";
+                    if(option === 'private-server') displayUrl = "https://roblox.com";
+                    
+                    resultText.textContent = `[${displayUrl}](${data.shorturl})`;
                 } else {
-                    const slug = customSlug || Math.random().toString(36).substr(2, 6);
-                    shortenedUrl = `https://${serviceName.toLowerCase()}/${slug}`;
+                    resultText.textContent = "Error: " + (data.errormessage || "Invalid URL");
                 }
+                delete window[cbName];
+                document.getElementById('temp_script').remove();
+            };
 
-                let displayUrl;
-                const userId = originalUrl.match(/users\/(\d+)/)?.[1] || 'ID';
-                const groupId = originalUrl.match(/(communities|groups)\/(\d+)/)?.[2] || 'ID';
-                const serverCode = originalUrl.match(/code=([a-f0-9]+)/i)?.[1] || 'abc123';
+            const script = document.createElement('script');
+            script.id = 'temp_script';
+            script.src = `https://is.gd{cbName}&url=${encodeURIComponent(originalUrl)}`;
+            document.body.appendChild(script);
+        } catch (e) { resultText.textContent = "Connection Error."; }
+    }
 
-                switch (option) {
-                    case 'profile': displayUrl = `https__:__//://roblox.com{userId}/profile`; break;
-                    case 'group': displayUrl = `https__:__//://roblox.com{groupId}`; break;
-                    case 'private-server': displayUrl = `https_:_//://roblox.com{serverCode}&type=Server`; break;
-                    default: displayUrl = originalUrl.replace('robiox.com.tg', 'roblox.com');
-                }
-                resultText.textContent = `[${displayUrl}](${shortenedUrl})`;
-            } catch (error) { resultText.textContent = `Error: ${error.message}`; }
-        }
+    function copyResult() {
+        navigator.clipboard.writeText(document.getElementById('resultText').innerText);
+        alert("Copied!");
+    }
 
-        async function unshortenLink() {
-            const url = document.getElementById('shortenedUrlInput').value.trim();
-            if (!url) { alert('Please enter a shortened URL!'); return; }
-            document.getElementById('resultText').innerHTML = '<span class="loading">Revealing original URL...</span>';
-            document.getElementById('resultBox').classList.add('show');
-            // Unshorten logic here...
-        }
-
-        function copyResult() {
-            const text = document.getElementById('resultText').innerText;
-            navigator.clipboard.writeText(text);
-            alert("Copied!");
-        }
-
-        // Falling Stars Script
-        function createStar() {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.innerHTML = '★';
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.animationDuration = (Math.random() * 2 + 3) + 's';
-            document.body.appendChild(star);
-            setTimeout(() => star.remove(), 5000);
-        }
-        setInterval(createStar, 400);
-    </script>
+    function createStar() {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.innerHTML = '★';
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 5000);
+    }
+    setInterval(createStar, 400);
+</script>
 </body>
 </html>
