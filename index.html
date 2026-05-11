@@ -1,123 +1,249 @@
-@import "tailwindcss" source(none);
-@source "../src";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --font-display: "Orbitron", "Rajdhani", sans-serif;
-}
-
-:root {
-  --radius: 0.625rem;
-  --background: oklch(0.13 0.01 270);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.16 0.01 270);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.16 0.01 270);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.98 0 0);
-  --primary-foreground: oklch(0.13 0.01 270);
-  --secondary: oklch(0.22 0.01 270);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.22 0.01 270);
-  --muted-foreground: oklch(0.65 0.01 270);
-  --accent: oklch(0.25 0.02 270);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.6 0.24 27);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.28 0.01 270);
-  --input: oklch(0.2 0.01 270);
-  --ring: oklch(0.7 0.04 270);
-}
-
-@layer base {
-  * { border-color: var(--color-border); }
-  html, body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    background-image:
-      radial-gradient(circle at 20% 10%, oklch(0.2 0.05 280 / 0.4), transparent 50%),
-      radial-gradient(circle at 80% 90%, oklch(0.2 0.05 250 / 0.3), transparent 50%);
-    background-attachment: fixed;
-    min-height: 100vh;
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEXUS — Tools & Generators</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#100f17; --fg:#fafafa; --muted:#9a99a6;
+    --border:#2c2b36; --card-a:#1a1922; --card-b:#100f17;
+    --silver-a:#f5f5f5; --silver-b:#b8b8b8;
   }
-}
+  *{box-sizing:border-box;border-color:var(--border)}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);min-height:100%;
+    font-family:Inter,system-ui,sans-serif;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(120,90,200,.25), transparent 50%),
+      radial-gradient(circle at 80% 90%, rgba(70,110,200,.2), transparent 50%);
+    background-attachment:fixed;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.35;z-index:0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%,#fff,transparent),
+      radial-gradient(1px 1px at 30% 70%,#fff,transparent),
+      radial-gradient(1px 1px at 60% 40%,#fff,transparent),
+      radial-gradient(1px 1px at 80% 80%,#fff,transparent),
+      radial-gradient(1px 1px at 50% 10%,#fff,transparent),
+      radial-gradient(1px 1px at 90% 30%,#fff,transparent),
+      radial-gradient(1px 1px at 15% 90%,#fff,transparent),
+      radial-gradient(1px 1px at 70% 60%,#fff,transparent);}
+  .wrap{max-width:1100px;margin:0 auto;padding:40px 24px;position:relative;z-index:1}
+  .frame{border:1px dashed rgba(150,148,170,.5);border-radius:6px;padding:28px}
+  @media(min-width:768px){.frame{padding:48px}}
+  .font-d{font-family:Orbitron,sans-serif;letter-spacing:.08em}
+  .glow{text-shadow:0 0 18px rgba(255,255,255,.55),0 0 40px rgba(170,140,255,.35)}
+  .topbar{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-bottom:32px}
+  .btn-silver,.btn-dark{display:inline-flex;align-items:center;gap:.5rem;
+    font-family:Orbitron,sans-serif;letter-spacing:.1em;font-size:.8rem;font-weight:600;
+    padding:.5rem 1.25rem;border-radius:6px;cursor:pointer;text-decoration:none;border:1px solid #888;}
+  .btn-silver{background:linear-gradient(180deg,var(--silver-a),var(--silver-b));color:#111}
+  .btn-silver:hover{filter:brightness(1.1)}
+  .btn-silver:disabled{opacity:.6;cursor:not-allowed}
+  .btn-dark{background:#1d1c26;color:#fff;border-color:#3a3947}
+  .btn-dark:hover{background:#26252f;border-color:#5a5870}
+  h1.title{font-family:Orbitron,sans-serif;font-weight:900;text-align:center;
+    font-size:clamp(2.6rem,7vw,4.5rem);margin:0;letter-spacing:.06em}
+  .sub{text-align:center;margin-top:.6rem;color:var(--muted);font-family:Orbitron,sans-serif;
+    letter-spacing:.3em;font-size:.8rem}
+  h2.section{font-family:Orbitron,sans-serif;text-align:center;font-size:clamp(1.6rem,4vw,2.3rem);
+    margin:0 0 28px;text-shadow:0 0 18px rgba(255,255,255,.55)}
+  .grid{display:grid;gap:18px}
+  .grid-2{grid-template-columns:1fr}
+  .grid-3{grid-template-columns:1fr}
+  @media(min-width:720px){.grid-2{grid-template-columns:1fr 1fr}.grid-3{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.grid-3{grid-template-columns:1fr 1fr 1fr}}
+  .tile{background:linear-gradient(180deg,rgba(26,25,34,.9),rgba(16,15,23,.9));
+    border:1px solid rgba(70,68,86,.8);border-radius:10px;padding:24px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;
+    transition:border-color .2s, transform .2s;color:inherit;text-decoration:none}
+  .tile:hover{border-color:#7a78a0;transform:translateY(-2px)}
+  .tile h3{margin:0;font-family:Orbitron,sans-serif;font-size:1.15rem}
+  .tile p{margin:0;font-size:.9rem;color:var(--muted)}
+  .row{background:linear-gradient(180deg,rgba(26,25,34,.9),rgba(16,15,23,.9));
+    border:1px solid rgba(70,68,86,.8);border-radius:10px;padding:14px 20px;
+    display:flex;align-items:center;justify-content:space-between;
+    color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+  .row:hover{border-color:#7a78a0;transform:translateY(-2px)}
+  .row .name{font-family:Orbitron,sans-serif;letter-spacing:.04em}
+  .badge{font-size:.7rem;padding:.25rem .75rem;border-radius:999px;background:#fff;color:#111;font-family:Orbitron,sans-serif}
+  .section-block{margin-bottom:60px}
+  .panel{max-width:640px;margin:0 auto;background:linear-gradient(180deg,rgba(26,25,34,.9),rgba(16,15,23,.9));
+    border:1px solid rgba(70,68,86,.8);border-radius:10px;padding:32px}
+  .label{display:block;text-align:center;font-family:Orbitron,sans-serif;letter-spacing:.2em;font-size:.8rem;margin-bottom:10px}
+  .input,.result{width:100%;background:#15141d;border:1px solid var(--border);border-radius:8px;
+    padding:12px 16px;color:#fff;font-size:.9rem;outline:none}
+  .input:focus{border-color:#7a78a0}
+  .result{min-height:48px;text-align:center;word-break:break-all;display:flex;align-items:center;justify-content:center}
+  .muted{color:var(--muted)}
+  .full{width:100%;justify-content:center}
+  .hide{display:none!important}
+  .back{margin-bottom:24px;display:inline-flex}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="frame">
 
-@font-face {
-  font-family: "Orbitron";
-  src: url("https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWg1.woff2") format("woff2");
-  font-weight: 400 900;
-  font-display: swap;
-}
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <a href="#/link-hider" class="btn-silver">🔗 LINK HIDER</a>
+      <a href="https://discord.gg/bs97x287" target="_blank" rel="noreferrer" class="btn-dark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369A19.79 19.79 0 0 0 16.558 3a14.7 14.7 0 0 0-.69 1.42 18.27 18.27 0 0 0-5.487 0A14.6 14.6 0 0 0 9.683 3a19.74 19.74 0 0 0-3.76 1.37C2.42 9.59 1.47 14.68 1.94 19.69a19.9 19.9 0 0 0 6.06 3.07 14.4 14.4 0 0 0 1.29-2.1 12.9 12.9 0 0 1-2.04-.98c.17-.13.34-.26.5-.39 3.94 1.83 8.2 1.83 12.09 0 .17.14.33.27.5.39-.65.39-1.34.72-2.05.98.37.74.81 1.45 1.3 2.1a19.86 19.86 0 0 0 6.06-3.07c.55-5.85-.94-10.9-3.93-15.32ZM8.68 16.42c-1.2 0-2.18-1.1-2.18-2.46 0-1.36.96-2.46 2.18-2.46s2.2 1.11 2.18 2.46c0 1.36-.96 2.46-2.18 2.46Zm6.64 0c-1.2 0-2.18-1.1-2.18-2.46 0-1.36.96-2.46 2.18-2.46s2.2 1.11 2.18 2.46c0 1.36-.96 2.46-2.18 2.46Z"/></svg>
+        DISCORD SERVER
+      </a>
+    </div>
 
-.font-display { font-family: var(--font-display); letter-spacing: 0.08em; }
-.glow-text { text-shadow: 0 0 18px oklch(1 0 0 / 0.55), 0 0 40px oklch(0.7 0.1 280 / 0.35); }
+    <!-- ============ HOME ============ -->
+    <div id="page-home">
+      <header style="text-align:center;margin-bottom:60px">
+        <h1 class="title glow">NEXUS</h1>
+        <p class="sub">COLLECTION OF TOOLS</p>
+      </header>
 
-.starfield::before {
-  content: ""; position: fixed; inset: 0; pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 10% 20%, white, transparent),
-    radial-gradient(1px 1px at 30% 70%, white, transparent),
-    radial-gradient(1px 1px at 60% 40%, white, transparent),
-    radial-gradient(1px 1px at 80% 80%, white, transparent),
-    radial-gradient(1px 1px at 50% 10%, white, transparent),
-    radial-gradient(1px 1px at 90% 30%, white, transparent),
-    radial-gradient(1px 1px at 15% 90%, white, transparent),
-    radial-gradient(1px 1px at 70% 60%, white, transparent);
-  opacity: 0.35; z-index: 0;
-}
+      <section class="section-block">
+        <h2 class="section glow">GENERATORS</h2>
+        <div class="grid grid-2">
+          <div class="tile"><h3>#1 IMMORTAL</h3><p>Trustworthy Collection of powerful Roblox Websites.</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+          <div class="tile"><h3>#2 SHOCKIFY</h3><p>Trustworthy Collection of powerful Roblox Websites.</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+          <div class="tile"><h3>#3 SPLUNK</h3><p>Trustworthy Collection of powerful Roblox Websites.</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+          <div class="tile"><h3>#4 INJURIES (UPDATING)</h3><p>Trustworthy Collection of powerful Roblox Websites.</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+        </div>
+      </section>
 
-.dashed-frame { border: 1px dashed oklch(0.5 0.01 270 / 0.6); border-radius: 6px; }
+      <section class="section-block">
+        <h2 class="section glow">TOOLS</h2>
+        <div class="grid grid-2">
+          <div class="tile"><h3>BYPASSER</h3><p>OP Tool Commonly Used to Remove the account Gmail</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+          <div class="tile"><h3>AUTOHAR</h3><p>Trustworthy Collection of powerful Roblox Websites.</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+          <div class="tile"><h3>HYPERLINK</h3><p>Hyperlink used to hide your dangerous link on discord</p><a class="btn-silver" href="#/hyperlink">GO TO SITE</a></div>
+          <div class="tile"><h3>SERVERS TO BEAM</h3><p>Hopping method some discord servers are here</p><a class="btn-silver" href="#">GO TO SITE</a></div>
+        </div>
+      </section>
+    </div>
 
-.card-tile {
-  background: linear-gradient(180deg, oklch(0.17 0.01 270 / 0.9), oklch(0.13 0.01 270 / 0.9));
-  border: 1px solid oklch(0.3 0.01 270 / 0.8);
-  border-radius: 10px;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.card-tile:hover { border-color: oklch(0.55 0.05 270); transform: translateY(-2px); }
+    <!-- ============ HYPERLINK ============ -->
+    <div id="page-hyperlink" class="hide">
+      <a href="#/" class="btn-silver back">← BACK</a>
+      <header style="text-align:center;margin-bottom:48px">
+        <h1 class="title glow">HYPERLINK</h1>
+        <p class="sub">DISCORD HYPERLINK GENERATOR</p>
+      </header>
+      <div class="panel">
+        <label class="label">PHISHING LINK (DESTINATION)</label>
+        <input id="hl-input" class="input" placeholder="e.g. pr.com" maxlength="2000" />
+        <div class="label" style="margin-top:24px">RESULT</div>
+        <div id="hl-result" class="result muted">Paste your link above</div>
+        <button id="hl-copy" class="btn-silver full" style="margin-top:24px" disabled>📋 COPY</button>
+      </div>
+    </div>
 
-.btn-silver {
-  background: linear-gradient(180deg, #f5f5f5, #b8b8b8);
-  color: #111; border-radius: 6px; padding: 0.5rem 1.25rem;
-  font-family: var(--font-display); letter-spacing: 0.1em;
-  font-size: 0.8rem; font-weight: 600;
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  transition: filter 0.15s; border: 1px solid #888;
-}
-.btn-silver:hover { filter: brightness(1.1); }
-.btn-silver:disabled { opacity: 0.6; cursor: not-allowed; }
+    <!-- ============ LINK HIDER ============ -->
+    <div id="page-link-hider" class="hide">
+      <a href="#/" class="btn-silver back">← BACK</a>
+      <header style="text-align:center;margin-bottom:48px">
+        <h1 class="title glow">LINK HIDER</h1>
+        <p class="sub">HYPERLINK SITE</p>
+      </header>
+      <div id="lh-grid" class="grid grid-3" style="max-width:1000px;margin:0 auto"></div>
+    </div>
 
-.btn-dark {
-  background: oklch(0.18 0.01 270); color: oklch(0.98 0 0);
-  border: 1px solid oklch(0.35 0.01 270); border-radius: 6px;
-  padding: 0.5rem 1.25rem; font-family: var(--font-display);
-  letter-spacing: 0.1em; font-size: 0.8rem; font-weight: 600;
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  transition: border-color 0.15s, background 0.15s;
-}
-.btn-dark:hover { border-color: oklch(0.55 0.05 270); background: oklch(0.22 0.01 270); }
+  </div>
+</div>
+
+<script>
+  // ROUTING
+  const pages = {
+    "":            "page-home",
+    "/":           "page-home",
+    "/hyperlink":  "page-hyperlink",
+    "/link-hider": "page-link-hider",
+  };
+  function route() {
+    const h = location.hash.replace(/^#/, "");
+    const id = pages[h] || "page-home";
+    Object.values(pages).forEach(p => document.getElementById(p).classList.add("hide"));
+    document.getElementById(id).classList.remove("hide");
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange", route);
+  route();
+
+  // LINK HIDER SITES
+  const sites = [
+    {name:"shorturl.asia", url:"https://www.shorturl.asia/", recommended:true},
+    {name:"is.gd", url:"https://is.gd/"},
+    {name:"TinyURL", url:"https://tinyurl.com/"},
+    {name:"Bit.ly", url:"https://bitly.com/"},
+    {name:"Rebrand.ly", url:"https://www.rebrandly.com/"},
+    {name:"Cutt.ly", url:"https://cutt.ly/"},
+    {name:"click.ly", url:"https://click.ly/"},
+    {name:"tiny.cc", url:"https://tiny.cc/"},
+    {name:"shorter.me", url:"https://shorter.me/"},
+    {name:"shorter.gg", url:"https://shorter.gg/"},
+    {name:"spoo.me", url:"https://spoo.me/"},
+    {name:"reurl.cc", url:"https://reurl.cc/"},
+    {name:"href.li", url:"https://href.li/"},
+    {name:"rb.gy", url:"https://rb.gy/"},
+    {name:"t2m.io", url:"https://t2m.io/"},
+    {name:"clck.ru", url:"https://clck.ru/"},
+    {name:"v.gd", url:"https://v.gd/"},
+    {name:"short.io", url:"https://short.io/"},
+    {name:"kurze.links", url:"https://kurze.link/"},
+  ];
+  document.getElementById("lh-grid").innerHTML = sites.map(s => `
+    <a class="row" href="${s.url}" target="_blank" rel="noreferrer">
+      <span class="name">${s.name}</span>
+      ${s.recommended ? '<span class="badge">Recommended</span>' : ''}
+    </a>`).join("");
+
+  // HYPERLINK SHORTENER (cleanuri)
+  const input  = document.getElementById("hl-input");
+  const result = document.getElementById("hl-result");
+  const copyBtn= document.getElementById("hl-copy");
+  let lastResult = "";
+  let timer;
+
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    lastResult = ""; copyBtn.disabled = true;
+    const v = input.value.trim();
+    if (!v) { result.textContent = "Paste your link above"; result.classList.add("muted"); return; }
+    let url = v; if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+    try { new URL(url); } catch { return; }
+    result.textContent = "Shortening…"; result.classList.add("muted");
+    timer = setTimeout(() => shorten(url), 350);
+  });
+
+  async function shorten(url) {
+    try {
+      const res = await fetch("https://cleanuri.com/api/v1/shorten", {
+        method:"POST",
+        headers:{"Content-Type":"application/x-www-form-urlencoded"},
+        body:"url=" + encodeURIComponent(url),
+      });
+      const data = await res.json();
+      if (data.result_url) {
+        let host = "https://example.com";
+        try { const u = new URL(url); host = `${u.protocol}//${u.hostname.replace(/^www\./,"")}`; } catch {}
+        lastResult = `[${host}](${data.result_url})`;
+        result.textContent = lastResult;
+        result.classList.remove("muted");
+        copyBtn.disabled = false;
+      } else {
+        result.textContent = data.error || "Failed to shorten URL";
+      }
+    } catch {
+      result.textContent = "Network error (cleanuri may block CORS from file://)";
+    }
+  }
+
+  copyBtn.addEventListener("click", () => {
+    if (!lastResult) return;
+    navigator.clipboard.writeText(lastResult);
+    copyBtn.textContent = "✓ COPIED";
+    setTimeout(() => copyBtn.textContent = "📋 COPY", 1500);
+  });
+</script>
+</body>
+</html>
