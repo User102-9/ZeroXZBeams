@@ -23,43 +23,41 @@
             width: 100%;
             display: flex;
             justify-content: flex-end; 
-            padding: 20px;
+            padding: 15px 25px;
             box-sizing: border-box;
             position: absolute;
             top: 0;
             z-index: 100;
         }
 
-        /* BeamZero: Massive, Centered, and High Up */
+        /* BeamZero: Smaller and High Up */
         .logo {
-            font-size: 10rem; /* Increased size significantly */
-            font-weight: 900;
+            font-size: 3.5rem; /* Scaled down significantly */
+            font-weight: 700;
             color: #FFFFFF;
-            text-shadow: 0 0 20px #FFF, 0 0 40px #007BFF, 0 0 60px #007BFF, 0 0 100px #007BFF;
-            letter-spacing: 15px;
-            margin-top: 8vh; /* Moved higher up */
+            text-shadow: 0 0 10px #FFF, 0 0 20px #007BFF;
+            letter-spacing: 4px;
+            margin-top: 10vh; /* Keeps it high up */
             text-transform: uppercase;
             z-index: 10;
-            text-align: center;
         }
 
-        /* Discord Button: Sleek and Blue */
+        /* Discord Button: Small and Blue */
         .discord-btn {
             background-color: #007BFF;
             color: white;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
             text-decoration: none;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: 0.3s ease;
         }
 
         .discord-btn:hover {
             background-color: #0056b3;
-            box-shadow: 0 0 20px #007BFF;
-            transform: scale(1.05);
+            box-shadow: 0 0 12px #007BFF;
         }
 
         /* Falling Stars Effect */
@@ -83,17 +81,15 @@
         @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
         @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
 
-        .shooting_star:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; }
-        .shooting_star:nth-child(2) { top: 25%; left: 40%; animation-delay: 1.2s; }
-        .shooting_star:nth-child(3) { top: 10%; left: 70%; animation-delay: 2.5s; }
-        .shooting_star:nth-child(4) { top: 40%; left: 20%; animation-delay: 0.5s; }
-        .shooting_star:nth-child(5) { top: 35%; left: 60%; animation-delay: 1.8s; }
+        .shooting_star:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .shooting_star:nth-child(2) { top: 25%; left: 45%; animation-delay: 1s; }
+        .shooting_star:nth-child(3) { top: 15%; left: 75%; animation-delay: 2s; }
+        .shooting_star:nth-child(4) { top: 50%; left: 25%; animation-delay: 0.5s; }
     </style>
 </head>
 <body>
 
     <div class="night">
-        <div class="shooting_star"></div>
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
