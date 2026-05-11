@@ -9,13 +9,13 @@
             margin: 0;
             padding: 0;
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
         header {
@@ -24,7 +24,7 @@
             justify-content: space-between;
             padding: 20px;
             box-sizing: border-box;
-            position: absolute;
+            position: sticky;
             top: 0;
             z-index: 100;
         }
@@ -57,27 +57,24 @@
             font-weight: 900;
             color: #FFFFFF;
             text-shadow: 0 0 15px #FFF, 0 0 30px #007BFF;
-            margin-top: 10vh;
+            margin-top: 5vh;
             text-transform: uppercase;
             z-index: 10;
         }
 
-        #main-menu, #empty-page {
+        #main-menu, .page-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 40px;
             margin-top: 50px;
             z-index: 10;
-            width: 100%;
+            width: 90%;
         }
 
-        .button-row {
-            display: flex;
-            gap: 30px;
-        }
+        .page-content { display: none; margin-bottom: 50px; }
 
-        #empty-page { display: none; }
+        .button-row { display: flex; gap: 30px; }
 
         .big-box {
             border: 5px solid white;
@@ -89,45 +86,77 @@
             background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: 0.3s;
-            text-align: center;
         }
 
         .big-box:hover {
             box-shadow: 0 0 30px #007BFF;
-            transform: scale(1.05);
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Expanded Disclaimer */
+        /* Tools Page Styling */
+        .tool-container {
+            background: rgba(0, 0, 0, 0.4);
+            border: 3px solid white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .step-title {
+            color: #007BFF;
+            font-size: 2rem;
+            border-bottom: 2px solid white;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .shortener-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .link-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+            transition: 0.2s;
+        }
+
+        .link-card:hover { background: #007BFF; }
+
+        .recommended { color: #00ff00; font-size: 0.8rem; font-weight: bold; }
+
+        .code-block {
+            background: #000;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #007BFF;
+            margin: 10px 0 25px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
         .disclaimer {
             max-width: 900px;
             text-align: center;
             font-size: 1.6rem;
             font-weight: 700;
-            line-height: 1.5;
-            color: #FFFFFF;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             padding: 20px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .disclaimer span {
-            color: #007BFF;
-            text-decoration: underline;
-        }
-
-        .risk-warn {
-            color: #ff4d4d; /* Red for the risk warning */
-            display: block;
-            margin-top: 15px;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-        }
-
-        /* Stars Background */
-        .night { position: absolute; width: 100%; height: 100%; transform: rotateZ(45deg); z-index: 1; }
+        /* Background Stars */
+        .night { position: fixed; width: 100%; height: 100%; transform: rotateZ(45deg); z-index: 1; pointer-events: none; }
         .shooting_star { position: absolute; height: 2px; background: linear-gradient(-45deg, #5f91ff, rgba(0,0,255,0)); animation: tail 3000ms infinite, shooting 3000ms infinite; }
         @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
         @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
@@ -138,7 +167,6 @@
     <div class="night">
         <div class="shooting_star" style="top:10%; left:20%"></div>
         <div class="shooting_star" style="top:40%; left:60%"></div>
-        <div class="shooting_star" style="top:70%; left:30%"></div>
     </div>
 
     <header>
@@ -148,33 +176,80 @@
 
     <h1 class="logo" id="pageTitle">BeamZero</h1>
 
+    <!-- MAIN MENU -->
     <div id="main-menu">
         <div class="button-row">
             <div class="big-box" onclick="openPage('Tutorials')">Tutorials</div>
             <div class="big-box" onclick="openPage('Generators')">Generators</div>
             <div class="big-box" onclick="openPage('Tools')">Tools</div>
         </div>
-        
         <div class="disclaimer">
-            Join our discord <span>Zerobeams</span>. Follow the <span>rules</span> and listen to <span>staff</span>. 
-            We do not encourage beaming or illegal activities. Everything here is strictly for <span>educational purposes</span>.
-            <b class="risk-warn">YOU ARE USING THIS AT YOUR OWN SAFETY RISK.</b>
+            Join our discord <span style="color:#007BFF">Zerobeams</span>. Everything here is for educational purposes.
+            <br><span style="color:#ff4d4d">YOU ARE USING THIS AT YOUR OWN SAFETY RISK.</span>
         </div>
     </div>
 
-    <div id="empty-page"></div>
+    <!-- TOOLS PAGE -->
+    <div id="tools-page" class="page-content">
+        <div class="tool-container">
+            <h2 class="step-title">Step 1: Shorten your link</h2>
+            
+            <div class="shortener-list">
+                <a href="https://shorturl.asia" target="_blank" class="link-card">shorturl.asia <span class="recommended">Recommended ↗</span></a>
+                <a href="https://is.gd" target="_blank" class="link-card">is.gd ↗</a>
+                <a href="https://tinyurl.com" target="_blank" class="link-card">TinyURL ↗</a>
+                <a href="https://bitly.com" target="_blank" class="link-card">Bit.ly ↗</a>
+                <a href="https://rebrandly.com" target="_blank" class="link-card">Rebrand.ly ↗</a>
+                <a href="https://cutt.ly" target="_blank" class="link-card">Cutt.ly ↗</a>
+                <a href="https://clik.ly" target="_blank" class="link-card">clik.ly ↗</a>
+                <a href="https://tiny.cc" target="_blank" class="link-card">tiny.cc ↗</a>
+                <a href="https://shorter.me" target="_blank" class="link-card">shorter.me ↗</a>
+                <a href="https://shorter.gg" target="_blank" class="link-card">shorter.gg ↗</a>
+                <a href="https://spoo.me" target="_blank" class="link-card">spoo.me ↗</a>
+                <a href="https://reurl.cc" target="_blank" class="link-card">reurl.cc ↗</a>
+                <a href="https://href.li" target="_blank" class="link-card">href.li ↗</a>
+                <a href="https://rb.gy" target="_blank" class="link-card">rb.gy ↗</a>
+                <a href="https://t2m.io" target="_blank" class="link-card">t2m.io ↗</a>
+                <a href="https://clck.ru" target="_blank" class="link-card">clck.ru ↗</a>
+                <a href="https://v.gd" target="_blank" class="link-card">v.gd ↗</a>
+                <a href="https://short.io" target="_blank" class="link-card">short.io ↗</a>
+            </div>
+
+            <h2 class="step-title">Step 2: Choose Method</h2>
+            
+            <p>FOR PROFILE:</p>
+            <div class="code-block">[https://roblox.com](YOUR SHORTNED LINK)</div>
+
+            <p>FOR PRIVATE SERVER:</p>
+            <div class="code-block">[https://roblox.com](YOUR SHORTENED LINK)</div>
+
+            <p>FOR GROUP LINK:</p>
+            <div class="code-block">[https://roblox.com](YOUR SHORTENED LINK HERE)</div>
+        </div>
+    </div>
+
+    <!-- OTHER PAGES -->
+    <div id="other-page" class="page-content">
+        <h2 style="font-size: 2rem;">COMING SOON</h2>
+    </div>
 
     <script>
         function openPage(name) {
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('backBtn').style.display = 'block';
             document.getElementById('pageTitle').innerText = name;
-            document.getElementById('empty-page').style.display = 'flex';
+
+            if(name === 'Tools') {
+                document.getElementById('tools-page').style.display = 'flex';
+            } else {
+                document.getElementById('other-page').style.display = 'flex';
+            }
         }
 
         function goBack() {
             document.getElementById('main-menu').style.display = 'flex';
-            document.getElementById('empty-page').style.display = 'none';
+            document.getElementById('tools-page').style.display = 'none';
+            document.getElementById('other-page').style.display = 'none';
             document.getElementById('backBtn').style.display = 'none';
             document.getElementById('pageTitle').innerText = 'BeamZero';
         }
