@@ -18,7 +18,6 @@
             align-items: center;
         }
 
-        /* Top Header */
         header {
             width: 100%;
             display: flex;
@@ -32,27 +31,27 @@
 
         .back-btn {
             background: none;
-            border: 2px solid white;
+            border: 3px solid white;
             color: white;
-            padding: 10px 20px;
-            font-weight: bold;
+            padding: 10px 25px;
+            font-weight: 900;
             cursor: pointer;
-            border-radius: 5px;
-            display: none; /* Hidden by default */
+            border-radius: 8px;
+            display: none;
+            text-transform: uppercase;
         }
 
         .discord-btn {
             background-color: #007BFF;
             color: white;
-            padding: 12px 24px;
-            font-size: 1rem;
+            padding: 10px 20px;
+            font-size: 0.9rem;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
             border: 2px solid white;
         }
 
-        /* Logo Area */
         .logo {
             font-size: 4rem;
             font-weight: 900;
@@ -63,8 +62,7 @@
             z-index: 10;
         }
 
-        /* Main Menu Containers */
-        #main-menu, .page-content {
+        #main-menu, #generators-page, #other-page {
             display: flex;
             gap: 30px;
             margin-top: 50px;
@@ -73,47 +71,29 @@
             width: 100%;
         }
 
-        .page-content {
-            display: none; /* Hidden until clicked */
-            flex-direction: column;
-            align-items: center;
-        }
+        #generators-page, #other-page { display: none; }
 
-        /* Big Bordered Boxes */
         .big-box {
-            border: 5px solid white; /* Made borders bigger */
-            padding: 40px 60px;
-            border-radius: 20px;
+            border: 5px solid white;
+            padding: 40px 50px;
+            border-radius: 15px;
             text-transform: uppercase;
             font-weight: 900;
-            font-size: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.6rem;
+            background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: 0.3s;
             text-align: center;
-            min-width: 200px;
         }
 
         .big-box:hover {
             box-shadow: 0 0 30px #007BFF;
             transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Generator Specific Sub-items */
-        .sub-item {
-            margin: 15px;
-            padding: 20px;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
-            width: 60%;
-            text-align: center;
-        }
-
-        .sub-item a { color: #007BFF; text-decoration: none; font-weight: bold; }
-
-        /* Falling Stars */
         .night { position: absolute; width: 100%; height: 100%; transform: rotateZ(45deg); z-index: 1; }
-        .shooting_star { position: absolute; height: 2px; background: linear-gradient(-45deg, #5f91ff, rgba(0,0,255,0)); border-radius: 999px; animation: tail 3000ms infinite, shooting 3000ms infinite; }
+        .shooting_star { position: absolute; height: 2px; background: linear-gradient(-45deg, #5f91ff, rgba(0,0,255,0)); animation: tail 3000ms infinite, shooting 3000ms infinite; }
         @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
         @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
     </style>
@@ -121,9 +101,8 @@
 <body>
 
     <div class="night">
-        <div class="shooting_star" style="top:10%; left:10%"></div>
-        <div class="shooting_star" style="top:30%; left:50%"></div>
-        <div class="shooting_star" style="top:70%; left:20%"></div>
+        <div class="shooting_star" style="top:10%; left:20%"></div>
+        <div class="shooting_star" style="top:40%; left:60%"></div>
     </div>
 
     <header>
@@ -140,25 +119,15 @@
         <div class="big-box" onclick="openPage('Tools')">Tools</div>
     </div>
 
-    <!-- GENERATORS PAGE -->
-    <div id="generators-page" class="page-content">
-        <div class="sub-item">
-            <h3>Beam Link</h3>
-            <p>Generate your beam link for questions here.</p>
-        </div>
-        <div class="sub-item">
-            <h3>Answer Finder</h3>
-            <p>Find answers for your questions instantly.</p>
-        </div>
-        <div class="sub-item">
-            <h3>Link Hider</h3>
-            <p><a href="#">Hyperlink: Click here to hide your link</a></p>
-        </div>
+    <!-- GENERATORS PAGE (Cleaned up as requested) -->
+    <div id="generators-page">
+        <div class="big-box">Generate</div>
+        <div class="big-box">Answers</div>
+        <div class="big-box">Hide Link</div>
     </div>
 
-    <!-- OTHER PAGES (Placeholders) -->
-    <div id="other-page" class="page-content">
-        <h2>Content coming soon...</h2>
+    <div id="other-page">
+        <h2 style="font-size: 2rem;">COMING SOON</h2>
     </div>
 
     <script>
