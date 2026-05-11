@@ -5,218 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeamZero</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-        }
-
-        header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .back-btn {
-            background: none;
-            border: 3px solid white;
-            color: white;
-            padding: 10px 25px;
-            font-weight: 900;
-            cursor: pointer;
-            border-radius: 8px;
-            display: none;
-            text-transform: uppercase;
-        }
-
-        .discord-btn {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 8px;
-            border: 2px solid white;
-        }
-
-        .logo {
-            font-size: 4rem;
-            font-weight: 900;
-            color: #FFFFFF;
-            text-shadow: 0 0 15px #FFF, 0 0 30px #007BFF;
-            margin-top: 5vh;
-            text-transform: uppercase;
-            z-index: 10;
-        }
-
-        #main-menu, .page-content, #tools-menu {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-            margin-top: 50px;
-            z-index: 10;
-            width: 90%;
-        }
-
+        body { margin: 0; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); min-height: 100vh; font-family: 'Segoe UI', sans-serif; color: white; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; display: flex; justify-content: space-between; padding: 20px; }
+        .back-btn { background: none; border: 3px solid white; color: white; padding: 10px 25px; font-weight: 900; cursor: pointer; display: none; }
+        .discord-btn { background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; border: 2px solid white; }
+        .logo { font-size: 3rem; font-weight: 900; text-shadow: 0 0 15px #007BFF; margin-top: 5vh; }
+        #main-menu, .page-content, #tools-menu { display: flex; flex-direction: column; align-items: center; gap: 30px; margin-top: 30px; }
         .page-content, #tools-menu { display: none; }
-
-        .big-box {
-            border: 5px solid white;
-            padding: 30px 50px;
-            border-radius: 15px;
-            text-transform: uppercase;
-            font-weight: 900;
-            font-size: 1.6rem;
-            background: rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-        }
-
-        .big-box:hover {
-            box-shadow: 0 0 30px #007BFF;
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.02);
-        }
-
-        .tool-container {
-            background: rgba(0, 0, 0, 0.4);
-            border: 3px solid white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 50px;
-        }
-
-        .step-title {
-            color: #007BFF;
-            font-size: 1.8rem;
-            border-bottom: 2px solid white;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-        }
-
-        /* Shortener Grid */
-        .shortener-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .link-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .link-card:hover { background: #007BFF; }
-
-        /* Generator Styling */
-        .gen-input {
-            width: 100%;
-            padding: 15px;
-            background: #000;
-            border: 2px solid white;
-            color: white;
-            border-radius: 8px;
-            margin: 10px 0;
-            box-sizing: border-box;
-        }
-
-        select.gen-input {
-            cursor: pointer;
-            background: #111;
-        }
-
-        .gen-btn {
-            background: #007BFF;
-            color: white;
-            border: 2px solid white;
-            padding: 15px 30px;
-            font-weight: 900;
-            cursor: pointer;
-            border-radius: 8px;
-            width: 100%;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-
-        .result-box {
-            background: #000;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid #00ff00;
-            margin-top: 20px;
-            font-family: monospace;
-            word-break: break-all;
-            display: none;
-        }
-
-        .disclaimer {
-            max-width: 900px;
-            text-align: center;
-            font-size: 1.6rem;
-            font-weight: 700;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Stars Background */
-        .night { position: fixed; width: 100%; height: 100%; transform: rotateZ(45deg); z-index: 1; pointer-events: none; }
-        .shooting_star { position: absolute; height: 2px; background: linear-gradient(-45deg, #5f91ff, rgba(0,0,255,0)); animation: tail 3000ms infinite, shooting 3000ms infinite; }
-        @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
-        @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
+        .big-box { border: 3px solid white; padding: 20px; border-radius: 10px; cursor: pointer; background: rgba(255,255,255,0.1); text-align: center; }
+        .tool-container { background: rgba(0,0,0,0.5); border: 2px solid white; padding: 30px; border-radius: 15px; width: 80%; max-width: 600px; }
+        .gen-input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .gen-btn { background: #007BFF; color: white; padding: 10px; border: none; border-radius: 5px; width: 100%; cursor: pointer; }
+        .result-box { background: #000; padding: 15px; margin-top: 15px; color: #0f0; word-break: break-all; display: none; }
     </style>
 </head>
 <body>
-
-    <div class="night">
-        <div class="shooting_star" style="top:10%; left:20%"></div>
-        <div class="shooting_star" style="top:40%; left:60%"></div>
-    </div>
-
     <header>
         <button class="back-btn" id="backBtn" onclick="goBack()">← BACK</button>
-        <a href="https://discord.gg" class="discord-btn" target="_blank">OUR DISCORD</a>
+        <a href="https://discord.gg" class="discord-btn" target="_blank">DISCORD</a>
     </header>
 
-    <h1 class="logo" id="pageTitle">BeamZero</h1>
+    <h1 class="logo">BeamZero</h1>
 
     <!-- MAIN MENU -->
     <div id="main-menu">
-        <div style="display: flex; gap: 30px;">
-            <div class="big-box" onclick="openPage('Tutorials')">Tutorials</div>
-            <div class="big-box" onclick="openPage('Generators')">Generators</div>
-            <div class="big-box" onclick="openPage('Tools')">Tools</div>
-        </div>
-        <div class="disclaimer">
-            Join our discord <span style="color:#007BFF">Zerobeams</span>. Everything here is for educational purposes.
-            <br><span style="color:#ff4d4d">YOU ARE USING THIS AT YOUR OWN SAFETY RISK.</span>
-        </div>
+        <div class="big-box" onclick="showTools()">Tools</div>
     </div>
 
     <!-- TOOLS MENU -->
@@ -227,93 +40,37 @@
     <!-- HYPERLINK CONTENT -->
     <div id="hyperlink-content" class="page-content">
         <div class="tool-container">
-            <h2 class="step-title">Step 1: Shorten your link</h2>
-            <div class="shortener-grid">
-                <a href="https://shorturl.asia" target="_blank" class="link-card">shorturl.asia <span style="color:#0f0">✓</span></a>
-                <a href="https://is.gd" target="_blank" class="link-card">is.gd ↗</a>
-                <a href="https://tinyurl.com" target="_blank" class="link-card">TinyURL ↗</a>
-                <a href="https://bitly.com" target="_blank" class="link-card">Bit.ly ↗</a>
-                <a href="https://cutt.ly" target="_blank" class="link-card">Cutt.ly ↗</a>
-                <a href="https://shorter.me" target="_blank" class="link-card">shorter.me ↗</a>
-            </div>
-
-            <h2 class="step-title">Step 2: Generate Hyperlink</h2>
-            <p>Select Method:</p>
+            <h3>Hyperlink Generator</h3>
             <select id="method" class="gen-input">
                 <option value="profile">Profile</option>
                 <option value="server">Private Server</option>
                 <option value="group">Group Link</option>
             </select>
-
-            <p>Paste Shortened Link:</p>
-            <input type="text" id="shortLink" class="gen-input" placeholder="https://shorturl.asia">
-
-            <button class="gen-btn" onclick="generateLink()">Generate Link</button>
-
+            <input type="text" id="shortLink" class="gen-input" placeholder="Paste CleanURI link">
+            <button class="gen-btn" onclick="generateLink()">Generate</button>
             <div id="result" class="result-box"></div>
         </div>
     </div>
 
-    <div id="other-page" class="page-content">
-        <h2 style="font-size: 2rem;">COMING SOON</h2>
-    </div>
-
     <script>
-        let currentLevel = 0;
-
-        function openPage(name) {
+        function showTools() {
             document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('tools-menu').style.display = 'flex';
             document.getElementById('backBtn').style.display = 'block';
-            document.getElementById('pageTitle').innerText = name;
-            
-            if(name === 'Tools') {
-                document.getElementById('tools-menu').style.display = 'flex';
-                currentLevel = 1;
-            } else {
-                document.getElementById('other-page').style.display = 'flex';
-                currentLevel = 1;
-            }
         }
-
         function showHyperlink() {
             document.getElementById('tools-menu').style.display = 'none';
             document.getElementById('hyperlink-content').style.display = 'flex';
-            currentLevel = 2;
         }
-
         function generateLink() {
-            const method = document.getElementById('method').value;
-            const link = document.getElementById('shortLink').value;
+            const link = document.getElementById('shortLink').value.trim();
             const resultBox = document.getElementById('result');
-            
-            if(!link) { alert("Please paste a link first!"); return; }
-
-            let formatted = "";
-            if(method === "profile") {
-                formatted = `[https://roblox.com](${link})`;
-            } else if(method === "server") {
-                formatted = `[https://roblox.com](${link})`;
-            } else if(method === "group") {
-                formatted = `[https://roblox.com](${link})`;
-            }
-
-            resultBox.innerText = formatted;
+            if(!link) { alert("Paste link!"); return; }
+            resultBox.innerText = `[https://roblox.com](${link})`;
             resultBox.style.display = 'block';
         }
-
         function goBack() {
-            if(currentLevel === 2) {
-                document.getElementById('hyperlink-content').style.display = 'none';
-                document.getElementById('tools-menu').style.display = 'flex';
-                currentLevel = 1;
-            } else {
-                document.getElementById('main-menu').style.display = 'flex';
-                document.getElementById('tools-menu').style.display = 'none';
-                document.getElementById('other-page').style.display = 'none';
-                document.getElementById('backBtn').style.display = 'none';
-                document.getElementById('pageTitle').innerText = 'BeamZero';
-                currentLevel = 0;
-            }
+            location.reload();
         }
     </script>
 </body>
