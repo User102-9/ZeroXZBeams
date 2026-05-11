@@ -90,10 +90,9 @@
         .big-box:hover {
             box-shadow: 0 0 30px #007BFF;
             background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
-        /* Tools Page Styling */
         .tool-container {
             background: rgba(0, 0, 0, 0.4);
             border: 3px solid white;
@@ -104,16 +103,6 @@
             margin-bottom: 50px;
         }
 
-        .desc-box {
-            background: rgba(0, 123, 255, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border: 1px solid #007BFF;
-            text-align: center;
-            font-weight: bold;
-        }
-
         .step-title {
             color: #007BFF;
             font-size: 1.8rem;
@@ -122,6 +111,7 @@
             padding-bottom: 10px;
         }
 
+        /* Shortener Grid */
         .shortener-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -137,24 +127,51 @@
             color: white;
             border: 1px solid rgba(255,255,255,0.2);
             font-size: 0.9rem;
-            transition: 0.2s;
             display: flex;
             justify-content: space-between;
         }
 
-        .link-card:hover { background: #007BFF; border-color: white; }
+        .link-card:hover { background: #007BFF; }
 
-        .recommended { color: #00ff00; font-weight: bold; }
-
-        .code-block {
-            background: #000;
+        /* Generator Styling */
+        .gen-input {
+            width: 100%;
             padding: 15px;
+            background: #000;
+            border: 2px solid white;
+            color: white;
             border-radius: 8px;
-            border-left: 5px solid #007BFF;
-            margin: 10px 0 20px 0;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        select.gen-input {
+            cursor: pointer;
+            background: #111;
+        }
+
+        .gen-btn {
+            background: #007BFF;
+            color: white;
+            border: 2px solid white;
+            padding: 15px 30px;
+            font-weight: 900;
+            cursor: pointer;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .result-box {
+            background: #000;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #00ff00;
+            margin-top: 20px;
             font-family: monospace;
             word-break: break-all;
-            color: #ddd;
+            display: none;
         }
 
         .disclaimer {
@@ -202,7 +219,7 @@
         </div>
     </div>
 
-    <!-- TOOLS SUB-MENU -->
+    <!-- TOOLS MENU -->
     <div id="tools-menu">
         <div class="big-box" onclick="showHyperlink()">Hyperlink</div>
     </div>
@@ -210,44 +227,33 @@
     <!-- HYPERLINK CONTENT -->
     <div id="hyperlink-content" class="page-content">
         <div class="tool-container">
-            <div class="desc-box">This is used to hide your beaming links.</div>
-            
             <h2 class="step-title">Step 1: Shorten your link</h2>
             <div class="shortener-grid">
-                <a href="https://shorturl.asia" target="_blank" class="link-card">shorturl.asia <span class="recommended">Recommended ↗</span></a>
+                <a href="https://shorturl.asia" target="_blank" class="link-card">shorturl.asia <span style="color:#0f0">✓</span></a>
                 <a href="https://is.gd" target="_blank" class="link-card">is.gd ↗</a>
                 <a href="https://tinyurl.com" target="_blank" class="link-card">TinyURL ↗</a>
                 <a href="https://bitly.com" target="_blank" class="link-card">Bit.ly ↗</a>
-                <a href="https://rebrandly.com" target="_blank" class="link-card">Rebrand.ly ↗</a>
                 <a href="https://cutt.ly" target="_blank" class="link-card">Cutt.ly ↗</a>
-                <a href="https://clik.ly" target="_blank" class="link-card">clik.ly ↗</a>
-                <a href="https://tiny.cc" target="_blank" class="link-card">tiny.cc ↗</a>
                 <a href="https://shorter.me" target="_blank" class="link-card">shorter.me ↗</a>
-                <a href="https://shorter.gg" target="_blank" class="link-card">shorter.gg ↗</a>
-                <a href="https://spoo.me" target="_blank" class="link-card">spoo.me ↗</a>
-                <a href="https://reurl.cc" target="_blank" class="link-card">reurl.cc ↗</a>
-                <a href="https://href.li" target="_blank" class="link-card">href.li ↗</a>
-                <a href="https://rb.gy" target="_blank" class="link-card">rb.gy ↗</a>
-                <a href="https://t2m.io" target="_blank" class="link-card">t2m.io ↗</a>
-                <a href="https://clck.ru" target="_blank" class="link-card">clck.ru ↗</a>
-                <a href="https://v.gd" target="_blank" class="link-card">v.gd ↗</a>
-                <a href="https://short.io" target="_blank" class="link-card">short.io ↗</a>
             </div>
 
-            <h2 class="step-title">Step 2: Choose Method</h2>
-            
-            <p>FOR PROFILE:</p>
-            <div class="code-block">[https://roblox.com](YOUR SHORTNED LINK)</div>
+            <h2 class="step-title">Step 2: Generate Hyperlink</h2>
+            <p>Select Method:</p>
+            <select id="method" class="gen-input">
+                <option value="profile">Profile</option>
+                <option value="server">Private Server</option>
+                <option value="group">Group Link</option>
+            </select>
 
-            <p>FOR PRIVATE SERVER:</p>
-            <div class="code-block">[https://roblox.com](YOUR SHORTENED LINK)</div>
+            <p>Paste Shortened Link:</p>
+            <input type="text" id="shortLink" class="gen-input" placeholder="https://shorturl.asia">
 
-            <p>FOR GROUP LINK:</p>
-            <div class="code-block">[https://roblox.com](YOUR SHORTENED LINK HERE)</div>
+            <button class="gen-btn" onclick="generateLink()">Generate Link</button>
+
+            <div id="result" class="result-box"></div>
         </div>
     </div>
 
-    <!-- EMPTY PAGE -->
     <div id="other-page" class="page-content">
         <h2 style="font-size: 2rem;">COMING SOON</h2>
     </div>
@@ -273,6 +279,26 @@
             document.getElementById('tools-menu').style.display = 'none';
             document.getElementById('hyperlink-content').style.display = 'flex';
             currentLevel = 2;
+        }
+
+        function generateLink() {
+            const method = document.getElementById('method').value;
+            const link = document.getElementById('shortLink').value;
+            const resultBox = document.getElementById('result');
+            
+            if(!link) { alert("Please paste a link first!"); return; }
+
+            let formatted = "";
+            if(method === "profile") {
+                formatted = `[https://roblox.com](${link})`;
+            } else if(method === "server") {
+                formatted = `[https://roblox.com](${link})`;
+            } else if(method === "group") {
+                formatted = `[https://roblox.com](${link})`;
+            }
+
+            resultBox.innerText = formatted;
+            resultBox.style.display = 'block';
         }
 
         function goBack() {
