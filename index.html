@@ -13,48 +13,56 @@
             overflow: hidden;
             font-family: 'Segoe UI', sans-serif;
             color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Header Layout */
+        /* Top Header for the Discord Button */
         header {
+            width: 100%;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            position: relative;
+            justify-content: flex-end; 
+            padding: 20px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
             z-index: 100;
         }
 
-        /* BeamZero: Smaller, at the top, white and glowing */
+        /* BeamZero: Massive, Centered, and High Up */
         .logo {
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 10rem; /* Increased size significantly */
+            font-weight: 900;
             color: #FFFFFF;
-            text-shadow: 0 0 10px #FFF, 0 0 20px #007BFF;
-            letter-spacing: 2px;
-            margin: 0;
+            text-shadow: 0 0 20px #FFF, 0 0 40px #007BFF, 0 0 60px #007BFF, 0 0 100px #007BFF;
+            letter-spacing: 15px;
+            margin-top: 8vh; /* Moved higher up */
+            text-transform: uppercase;
+            z-index: 10;
+            text-align: center;
         }
 
-        /* Discord Button: Smaller and Blue */
+        /* Discord Button: Sleek and Blue */
         .discord-btn {
-            background-color: #007BFF; /* Bright Blue */
+            background-color: #007BFF;
             color: white;
             padding: 10px 20px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
             text-decoration: none;
             border-radius: 8px;
-            border: 1px solid #FFFFFF;
+            border: 1px solid rgba(255, 255, 255, 0.4);
             transition: 0.3s ease;
         }
 
         .discord-btn:hover {
             background-color: #0056b3;
-            box-shadow: 0 0 15px #007BFF;
+            box-shadow: 0 0 20px #007BFF;
             transform: scale(1.05);
         }
 
-        /* Falling Stars background logic */
+        /* Falling Stars Effect */
         .night {
             position: absolute;
             width: 100%;
@@ -75,10 +83,11 @@
         @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
         @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
 
-        .shooting_star:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .shooting_star:nth-child(2) { top: 40%; left: 30%; animation-delay: 1s; }
-        .shooting_star:nth-child(3) { top: 20%; left: 70%; animation-delay: 2s; }
-        .shooting_star:nth-child(4) { top: 60%; left: 50%; animation-delay: 1.5s; }
+        .shooting_star:nth-child(1) { top: 5%; left: 10%; animation-delay: 0s; }
+        .shooting_star:nth-child(2) { top: 25%; left: 40%; animation-delay: 1.2s; }
+        .shooting_star:nth-child(3) { top: 10%; left: 70%; animation-delay: 2.5s; }
+        .shooting_star:nth-child(4) { top: 40%; left: 20%; animation-delay: 0.5s; }
+        .shooting_star:nth-child(5) { top: 35%; left: 60%; animation-delay: 1.8s; }
     </style>
 </head>
 <body>
@@ -88,12 +97,14 @@
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
+        <div class="shooting_star"></div>
     </div>
 
     <header>
-        <p class="logo">BeamZero</p>
         <a href="https://discord.gg" class="discord-btn" target="_blank">OUR DISCORD</a>
     </header>
+
+    <h1 class="logo">BeamZero</h1>
 
 </body>
 </html>
