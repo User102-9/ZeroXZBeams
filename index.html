@@ -11,25 +11,60 @@
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             height: 100vh;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             color: white;
         }
 
-        /* Falling Stars Effect */
+        /* Header Layout */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* BeamZero: Smaller, at the top, white and glowing */
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 0 0 10px #FFF, 0 0 20px #007BFF;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        /* Discord Button: Smaller and Blue */
+        .discord-btn {
+            background-color: #007BFF; /* Bright Blue */
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid #FFFFFF;
+            transition: 0.3s ease;
+        }
+
+        .discord-btn:hover {
+            background-color: #0056b3;
+            box-shadow: 0 0 15px #007BFF;
+            transform: scale(1.05);
+        }
+
+        /* Falling Stars background logic */
         .night {
             position: absolute;
             width: 100%;
             height: 100%;
             transform: rotateZ(45deg);
+            z-index: 1;
         }
 
         .shooting_star {
             position: absolute;
-            left: 50%;
-            top: 50%;
             height: 2px;
             background: linear-gradient(-45deg, #5f91ff, rgba(0, 0, 255, 0));
             border-radius: 999px;
@@ -37,97 +72,28 @@
             animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite;
         }
 
-        .shooting_star::before, .shooting_star::after {
-            content: '';
-            position: absolute;
-            top: calc(50% - 1px);
-            right: 0;
-            height: 2px;
-            background: linear-gradient(-45deg, rgba(0, 0, 255, 0), #5f91ff, rgba(0, 0, 255, 0));
-            transform: translateX(50%) rotateZ(45deg);
-            border-radius: 100%;
-            animation: shining 3000ms ease-in-out infinite;
-        }
+        @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
+        @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
 
-        .shooting_star::after {
-            transform: translateX(50%) rotateZ(-45deg);
-        }
-
-        @keyframes tail {
-            0% { width: 0; }
-            30% { width: 100px; }
-            100% { width: 0; }
-        }
-
-        @keyframes shooting {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(300px); }
-        }
-
-        @keyframes shining {
-            0% { width: 0; }
-            50% { width: 30px; }
-            100% { width: 0; }
-        }
-
-        /* Generate multiple stars */
-        .shooting_star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0ms; }
-        .shooting_star:nth-child(2) { top: 30%; left: 50%; animation-delay: 500ms; }
-        .shooting_star:nth-child(3) { top: 70%; left: 10%; animation-delay: 1200ms; }
-        .shooting_star:nth-child(4) { top: 50%; left: 80%; animation-delay: 2000ms; }
-        .shooting_star:nth-child(5) { top: 20%; left: 90%; animation-delay: 2500ms; }
-
-        /* Main Title: White and Glowing */
-        h1 {
-            font-size: 6rem;
-            color: #FFFFFF;
-            text-shadow: 0 0 10px #FFF, 0 0 20px #FFF, 0 0 40px #007BFF, 0 0 70px #007BFF;
-            z-index: 10;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-        }
-
-        /* Large Discord Button */
-        .discord-btn {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            background-color: #5865F2;
-            color: white;
-            padding: 25px 50px;
-            font-size: 1.8rem;
-            font-weight: 900;
-            text-decoration: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            z-index: 20;
-            border: 2px solid white;
-        }
-
-        .discord-btn:hover {
-            background-color: #4752C4;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(88, 101, 242, 0.5);
-        }
+        .shooting_star:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .shooting_star:nth-child(2) { top: 40%; left: 30%; animation-delay: 1s; }
+        .shooting_star:nth-child(3) { top: 20%; left: 70%; animation-delay: 2s; }
+        .shooting_star:nth-child(4) { top: 60%; left: 50%; animation-delay: 1.5s; }
     </style>
 </head>
 <body>
 
-    <!-- Background Falling Stars -->
     <div class="night">
-        <div class="shooting_star"></div>
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
         <div class="shooting_star"></div>
     </div>
 
-    <!-- Discord Invite Link -->
-    <a href="https://discord.gg/bs97x287" class="discord-btn" target="_blank">OUR DISCORD</a>
-
-    <!-- Big Glowing Name -->
-    <h1>BeamZero</h1>
+    <header>
+        <p class="logo">BeamZero</p>
+        <a href="https://discord.gg" class="discord-btn" target="_blank">OUR DISCORD</a>
+    </header>
 
 </body>
 </html>
