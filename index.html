@@ -64,22 +64,28 @@
 
         #main-menu, #empty-page {
             display: flex;
-            gap: 30px;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
             margin-top: 50px;
             z-index: 10;
-            justify-content: center;
             width: 100%;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 30px;
         }
 
         #empty-page { display: none; }
 
         .big-box {
             border: 5px solid white;
-            padding: 40px 50px;
+            padding: 30px 40px;
             border-radius: 15px;
             text-transform: uppercase;
             font-weight: 900;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             background: rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: 0.3s;
@@ -90,6 +96,34 @@
             box-shadow: 0 0 30px #007BFF;
             transform: scale(1.05);
             background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Expanded Disclaimer */
+        .disclaimer {
+            max-width: 900px;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #FFFFFF;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .disclaimer span {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+
+        .risk-warn {
+            color: #ff4d4d; /* Red for the risk warning */
+            display: block;
+            margin-top: 15px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
         }
 
         /* Stars Background */
@@ -104,6 +138,7 @@
     <div class="night">
         <div class="shooting_star" style="top:10%; left:20%"></div>
         <div class="shooting_star" style="top:40%; left:60%"></div>
+        <div class="shooting_star" style="top:70%; left:30%"></div>
     </div>
 
     <header>
@@ -113,14 +148,20 @@
 
     <h1 class="logo" id="pageTitle">BeamZero</h1>
 
-    <!-- MAIN MENU -->
     <div id="main-menu">
-        <div class="big-box" onclick="openPage('Tutorials')">Tutorials</div>
-        <div class="big-box" onclick="openPage('Generators')">Generators</div>
-        <div class="big-box" onclick="openPage('Tools')">Tools</div>
+        <div class="button-row">
+            <div class="big-box" onclick="openPage('Tutorials')">Tutorials</div>
+            <div class="big-box" onclick="openPage('Generators')">Generators</div>
+            <div class="big-box" onclick="openPage('Tools')">Tools</div>
+        </div>
+        
+        <div class="disclaimer">
+            Join our discord <span>Zerobeams</span>. Follow the <span>rules</span> and listen to <span>staff</span>. 
+            We do not encourage beaming or illegal activities. Everything here is strictly for <span>educational purposes</span>.
+            <b class="risk-warn">YOU ARE USING THIS AT YOUR OWN SAFETY RISK.</b>
+        </div>
     </div>
 
-    <!-- EMPTY PAGE FOR GENERATORS / TOOLS -->
     <div id="empty-page"></div>
 
     <script>
