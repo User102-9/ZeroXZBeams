@@ -62,7 +62,7 @@
             z-index: 10;
         }
 
-        #main-menu, #generators-page, #other-page {
+        #main-menu, #empty-page {
             display: flex;
             gap: 30px;
             margin-top: 50px;
@@ -71,7 +71,7 @@
             width: 100%;
         }
 
-        #generators-page, #other-page { display: none; }
+        #empty-page { display: none; }
 
         .big-box {
             border: 5px solid white;
@@ -92,6 +92,7 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
+        /* Stars Background */
         .night { position: absolute; width: 100%; height: 100%; transform: rotateZ(45deg); z-index: 1; }
         .shooting_star { position: absolute; height: 2px; background: linear-gradient(-45deg, #5f91ff, rgba(0,0,255,0)); animation: tail 3000ms infinite, shooting 3000ms infinite; }
         @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
@@ -119,34 +120,20 @@
         <div class="big-box" onclick="openPage('Tools')">Tools</div>
     </div>
 
-    <!-- GENERATORS PAGE (Cleaned up as requested) -->
-    <div id="generators-page">
-        <div class="big-box">Generate</div>
-        <div class="big-box">Answers</div>
-        <div class="big-box">Hide Link</div>
-    </div>
-
-    <div id="other-page">
-        <h2 style="font-size: 2rem;">COMING SOON</h2>
-    </div>
+    <!-- EMPTY PAGE FOR GENERATORS / TOOLS -->
+    <div id="empty-page"></div>
 
     <script>
         function openPage(name) {
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('backBtn').style.display = 'block';
             document.getElementById('pageTitle').innerText = name;
-
-            if(name === 'Generators') {
-                document.getElementById('generators-page').style.display = 'flex';
-            } else {
-                document.getElementById('other-page').style.display = 'flex';
-            }
+            document.getElementById('empty-page').style.display = 'flex';
         }
 
         function goBack() {
             document.getElementById('main-menu').style.display = 'flex';
-            document.getElementById('generators-page').style.display = 'none';
-            document.getElementById('other-page').style.display = 'none';
+            document.getElementById('empty-page').style.display = 'none';
             document.getElementById('backBtn').style.display = 'none';
             document.getElementById('pageTitle').innerText = 'BeamZero';
         }
