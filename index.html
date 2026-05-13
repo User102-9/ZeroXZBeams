@@ -15,8 +15,8 @@
     }
 
     body {
-      background-color: #ffffff;
-      color: #0f172a;
+      background-color: #09090b; /* Dark Layout Pitch Black Background */
+      color: #fafafa; /* Clean White Base Text */
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       min-height: 100vh;
       width: 100vw;
@@ -40,44 +40,55 @@
     /* Typography Hierarchy Elements */
     .header-block {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       user-select: none;
       width: 100%;
     }
 
-    .header-block h1 {
-      font-size: 44px;
+    /* New Requested Top Tagline styling */
+    .top-badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #a1a1aa; /* Muted Slate Gray Text */
       font-weight: 700;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .header-block h1 {
+      font-size: 46px;
+      font-weight: 800;
       letter-spacing: -0.05em;
-      color: #0f172a;
+      color: #ffffff; /* Clean White Header Accent */
       line-height: 1;
     }
 
     .header-block p {
-      margin-top: 14px;
-      font-size: 13px;
-      color: #94a3b8;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #71717a; /* Muted Subtitle Text */
       font-weight: 400;
       letter-spacing: 0.02em;
     }
 
-    /* Main Workspace Container Control */
+    /* Main Workspace Dark Container Control */
     .workspace-box {
       width: 100%;
       position: relative;
-      background-color: #ffffff;
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      background-color: #141416; /* Deep Dark Panel Background */
+      border: 1px solid #27272a; /* Dark Layout Border Trim */
       border-radius: 16px;
       padding: 24px;
-      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.02);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       transition: border-color 0.15s ease;
     }
 
     .workspace-box:focus-within {
-      border-color: #cbd5e1;
+      border-color: #3f3f46; /* Lighter highlight frame on selection focus */
     }
 
-    /* Input panel box text content */
+    /* Input panel box white text content */
     .paste-area {
       width: 100%;
       height: 380px;
@@ -85,7 +96,7 @@
       background: transparent;
       border: none;
       outline: none;
-      color: #0f172a;
+      color: #ffffff; /* High contrast White Paste Text Content */
       font-size: 16px;
       line-height: 1.6;
       padding-bottom: 56px;
@@ -106,7 +117,7 @@
 
     /* Process Notification Logger Displays */
     .status-msg {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       pointer-events: auto;
       transition: all 0.15s ease;
@@ -114,13 +125,13 @@
 
     /* Floating Button Styling for the Processing State */
     .status-sending { 
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      color: #ffffff; 
-      background-color: #f59e0b;
-      padding: 10px 20px;
+      color: #000000; /* Dark text inside vibrant status container */
+      background-color: #ffffff; /* Pure White Floating Status Badge */
+      padding: 10px 22px;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
       letter-spacing: 0.03em;
       display: inline-block;
       animation: pulseEffect 2s infinite ease-in-out;
@@ -133,35 +144,35 @@
     }
 
     .status-error { 
-      color: #dc2626; 
+      color: #ef4444; /* Clean Neon Red Failure Text */
       background: none;
       padding: 0;
       box-shadow: none;
       font-size: 13px;
+      font-weight: 600;
     }
 
-    /* Standard Interactive Button Object Styles */
+    /* High Contrast Interactive Button Object Styles */
     .send-button {
       border: none;
       outline: none;
       border-radius: 8px;
-      background-color: #94a3b8;
-      color: #ffffff;
-      padding: 10px 22px;
+      background-color: #ffffff; /* Solid White Interactive Trigger */
+      color: #000000; /* Dark Inside Content */
+      padding: 10px 24px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       pointer-events: auto;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       transition: background-color 0.15s ease, opacity 0.15s ease;
     }
 
     .send-button:hover:not(:disabled) {
-      background-color: #64748b;
+      background-color: #e4e4e7; /* Soft White Hover Transition Grid */
     }
 
     .send-button:disabled {
-      opacity: 0.5;
+      opacity: 0.25; /* Highly transparent out when locked out */
       cursor: not-allowed;
     }
   </style>
@@ -172,6 +183,8 @@
     
     <!-- Title Stack Above Box -->
     <div class="header-block">
+      <!-- Added Top Tagline Header Label Component -->
+      <span class="top-badge">Best BYpasser 2026 For roblox</span>
       <h1>zeroBypass</h1>
       <p>easy fast</p>
     </div>
@@ -197,8 +210,8 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your confirmed live Discord delivery webhook endpoint
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504171986480529619/s1oUgKfAd_trajzQzp8bS-uHhrgndv6aLf3QWVCQq5BAZwkBWI4RQ2gQZtuTgOjwQnlA";
+    // Webhook destination system connection node
+    const DISCORD_WEBHOOK_URL = "discord.com";
 
     // Track user string activity state values
     textarea.addEventListener('input', () => {
