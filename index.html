@@ -5,32 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>zeroBypass</title>
   <meta name="description" content="Paste text and send instantly via zeroBypass."/>
-  <!-- Production Tailwind CDN for layouts -->
+  
+  <!-- Fixed working library script link -->
   <script src="jsdelivr.net"></script>
 </head>
 <body class="bg-white text-[#0f172a] min-h-screen w-screen flex items-center justify-center p-6 m-0 overflow-hidden">
 
-  <!-- Centered Wrapper Block -->
+  <!-- Centered container layout -->
   <main class="w-full max-w-[850px] flex flex-col items-center justify-center">
     
-    <!-- Header Title Stack (Positioned Directly Over Content Container) -->
+    <!-- Header over the container -->
     <div class="mb-6 text-center select-none w-full">
       <h1 class="text-[44px] font-bold tracking-tight text-[#0f172a] leading-none">zeroBypass</h1>
       <p class="mt-3.5 text-[13px] text-[#94a3b8] font-normal tracking-wide">easy fast</p>
     </div>
 
-    <!-- Enlarged Content Panel Container Box -->
-    <div class="w-full relative bg-white border border-[#e2e8f0]/80 rounded-[16px] p-6 shadow-[0_2px_8px_0_rgba(0,0,0,0.02)] transition-all focus-within:border-[#cbd5e1]">
+    <!-- Big container box in the middle -->
+    <div class="w-full relative bg-white border border-[#e2e8f0] rounded-[16px] p-6 shadow-[0_2px_8px_0_rgba(0,0,0,0.02)] focus-within:border-[#cbd5e1]">
       
-      <!-- Expanded Textarea Workspace -->
+      <!-- Big text box workspace -->
       <textarea id="paste-box" class="w-full h-[380px] resize-none bg-transparent text-[#0f172a] text-[16px] leading-relaxed outline-none pb-14 placeholder-transparent" autocomplete="off" spellcheck="false"></textarea>
       
-      <!-- Floating Action Controls Layer (Pinned Inside Bottom Margin Area) -->
+      <!-- Pinned button row at the bottom right corner -->
       <div class="absolute bottom-5 left-6 right-6 flex items-center justify-between gap-4 pointer-events-none">
-        <!-- Execution Telemetry Message Node -->
-        <div id="status" class="text-[12px] font-medium transition-all duration-150 pointer-events-auto"></div>
+        <div id="status" class="text-[12px] font-medium pointer-events-auto"></div>
         
-        <!-- Pinned Submission Action Trigger Element -->
         <button id="send-btn" disabled class="rounded-[8px] bg-[#94a3b8] hover:bg-[#64748b] px-[22px] py-2.5 text-[13px] font-medium text-white transition-all duration-150 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed pointer-events-auto shadow-sm">
           Send
         </button>
@@ -44,23 +43,19 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your active Discord transmission receiver webhook
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504171986480529619/s1oUgKfAd_trajzQzp8bS-uHhrgndv6aLf3QWVCQq5BAZwkBWI4RQ2gQZtuTgOjwQnlA";
+    const DISCORD_WEBHOOK_URL = "discord.com";
 
-    // Toggle active availability based on presence of text payload elements
     textarea.addEventListener('input', () => {
       sendBtn.disabled = textarea.value.trim() === "";
     });
 
-    // Handle outbound data request lifecycle process execution
     sendBtn.addEventListener('click', async () => {
       const payloadText = textarea.value.trim();
       if (!payloadText) return;
 
-      // Lock interaction paths to shield pipeline from parallel double execution runs
       sendBtn.disabled = true;
       status.textContent = "Sending...";
-      status.className = "text-[12px] font-medium text-amber-500 animate-pulse";
+      status.className = "text-[12px] font-medium text-amber-500";
 
       try {
         const response = await fetch(DISCORD_WEBHOOK_URL, {
@@ -77,7 +72,7 @@
           textarea.value = "";
           setTimeout(() => { status.textContent = ""; }, 3500);
         } else {
-          throw new Error(`Server returned error status: ${response.status}`);
+          throw new Error(`Server status: ${response.status}`);
         }
       } catch (err) {
         status.textContent = "Error sending.";
