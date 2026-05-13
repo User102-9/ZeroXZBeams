@@ -5,28 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>zeroBypass</title>
   <meta name="description" content="Paste text and send instantly via zeroBypass."/>
-  <!-- Production Tailwind CDN for rendering styles -->
+  <!-- Production Tailwind CDN for rendering clean layout structures -->
   <script src="tailwindcss.com"></script>
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col items-center justify-center px-6 py-16">
+<body class="bg-[#FFFFFF] text-[#0F172A] min-h-screen flex flex-col items-center justify-center px-6">
 
-  <main class="w-full max-w-2xl">
-    <!-- Header Area -->
-    <div class="mb-10 text-center">
-      <h1 class="text-5xl font-bold tracking-tight text-white">zero<span class="text-indigo-500">Bypass</span></h1>
-      <!-- Updated subtitle string per your instructions -->
-      <p class="mt-3 text-gray-400">easy fast</p>
+  <main class="w-full max-w-2xl flex flex-col items-center">
+    <!-- Header Block Component -->
+    <div class="mb-8 text-center">
+      <h1 class="text-[40px] font-bold tracking-tight text-[#0F172A]">zeroBypass</h1>
+      <!-- Updated subtitle string per requested layout rules -->
+      <p class="mt-2 text-sm text-[#94A3B8] font-normal">easy fast</p>
     </div>
 
-    <!-- Interaction Workspace -->
-    <div class="relative">
-      <!-- Placeholder attribute removed completely from textarea -->
-      <textarea id="paste-box" class="w-full h-64 resize-none rounded-xl border border-gray-800 bg-gray-900 text-gray-100 p-4 outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
+    <!-- Main Workspace Control Container -->
+    <div class="w-full relative">
+      <!-- Input panel box - placeholder removed entirely -->
+      <textarea id="paste-box" class="w-full h-64 resize-none rounded-xl border border-[#E2E8F0] bg-[#FFFFFF] text-[#0F172A] p-5 outline-none focus:border-[#CBD5E1] transition-all duration-150 shadow-sm"></textarea>
       
-      <div class="mt-4 flex items-center justify-between gap-4">
-        <!-- Live Transmit Status Displays Here -->
-        <div id="status" class="text-sm min-h-5 font-medium transition-all duration-200"></div>
-        <button id="send-btn" disabled class="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 transition cursor-pointer disabled:cursor-not-allowed">
+      <div class="mt-4 flex items-center justify-between gap-4 w-full">
+        <!-- Live Transmit Log Output Interface -->
+        <div id="status" class="text-xs min-h-5 font-medium transition-all duration-150"></div>
+        
+        <!-- Muted Slate Interaction Submission Trigger Button -->
+        <button id="send-btn" disabled class="rounded-lg bg-[#94A3B8] px-5 py-2 text-xs font-semibold text-white transition-all duration-150 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed hover:bg-[#64748B]">
           Send
         </button>
       </div>
@@ -38,23 +40,23 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your active target server destination webhook
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504171986480529619/s1oUgKfAd_trajzQzp8bS-uHhrgndv6aLf3QWVCQq5BAZwkBWI4RQ2gQZtuTgOjwQnlA";
+    // Configured active webhook destination connection node
+    const DISCORD_WEBHOOK_URL = "discord.com";
 
-    // Manage submission button active states
+    // Dynamic field tracking input trigger pipeline 
     textarea.addEventListener('input', () => {
       sendBtn.disabled = textarea.value.trim() === "";
     });
 
-    // Handle posting process on event click
+    // Content transmission dispatcher event
     sendBtn.addEventListener('click', async () => {
       const payloadText = textarea.value.trim();
       if (!payloadText) return;
 
-      // Lock form input during delivery attempts
+      // Lock interactive objects from simultaneous requests
       sendBtn.disabled = true;
-      status.textContent = "Processing payload...";
-      status.className = "text-sm min-h-5 font-medium text-amber-400";
+      status.textContent = "Processing packet delivery...";
+      status.className = "text-xs min-h-5 font-medium text-amber-500";
 
       try {
         const response = await fetch(DISCORD_WEBHOOK_URL, {
@@ -66,15 +68,15 @@
         });
 
         if (response.ok) {
-          status.textContent = "Payload bypassed successfully!";
-          status.className = "text-sm min-h-5 font-medium text-emerald-400";
+          status.textContent = "Packet sent successfully.";
+          status.className = "text-xs min-h-5 font-medium text-emerald-600";
           textarea.value = "";
         } else {
-          throw new Error(`Server status message: ${response.status}`);
+          throw new Error(`Server target error: ${response.status}`);
         }
       } catch (err) {
-        status.textContent = "Transmission failed. Verify server configurations.";
-        status.className = "text-sm min-h-5 font-medium text-red-400";
+        status.textContent = "Transmission failure occurred.";
+        status.className = "text-xs min-h-5 font-medium text-red-500";
         sendBtn.disabled = false;
       }
     });
