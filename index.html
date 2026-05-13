@@ -6,33 +6,163 @@
   <title>zeroBypass</title>
   <meta name="description" content="Paste text and send instantly via zeroBypass."/>
   
-  <!-- Fixed working library script link -->
-  <script src="jsdelivr.net"></script>
-</head>
-<body class="bg-white text-[#0f172a] min-h-screen w-screen flex items-center justify-center p-6 m-0 overflow-hidden">
+  <style>
+    /* Direct Standard Reset Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- Centered container layout -->
-  <main class="w-full max-w-[850px] flex flex-col items-center justify-center">
+    body {
+      background-color: #ffffff;
+      color: #0f172a;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    /* Centered Screen Layout Wrapper */
+    .container {
+      width: 100%;
+      max-width: 850px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Typography Hierarchy Elements */
+    .header-block {
+      text-align: center;
+      margin-bottom: 24px;
+      user-select: none;
+      width: 100%;
+    }
+
+    .header-block h1 {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      color: #0f172a;
+      line-height: 1;
+    }
+
+    .header-block p {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    /* Main Workspace Container Control */
+    .workspace-box {
+      width: 100%;
+      position: relative;
+      background-color: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.02);
+      transition: border-color 0.15s ease;
+    }
+
+    .workspace-box:focus-within {
+      border-color: #cbd5e1;
+    }
+
+    /* Input panel box text content */
+    .paste-area {
+      width: 100%;
+      height: 380px;
+      resize: none;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #0f172a;
+      font-size: 16px;
+      line-height: 1.6;
+      padding-bottom: 56px;
+    }
+
+    /* Floating Action Controls Interface Row */
+    .action-row {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    /* Process Notification Logger Displays */
+    .status-msg {
+      font-size: 12px;
+      font-weight: 500;
+      pointer-events: auto;
+      transition: all 0.15s ease;
+    }
+
+    .status-sending { color: #f59e0b; }
+    .status-success { color: #059669; }
+    .status-error { color: #dc2626; }
+
+    /* Standard Interactive Button Object Styles */
+    .send-button {
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      background-color: #94a3b8;
+      color: #ffffff;
+      padding: 10px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: background-color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .send-button:hover:not(:disabled) {
+      background-color: #64748b;
+    }
+
+    .send-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
     
-    <!-- Header over the container -->
-    <div class="mb-6 text-center select-none w-full">
-      <h1 class="text-[44px] font-bold tracking-tight text-[#0f172a] leading-none">zeroBypass</h1>
-      <p class="mt-3.5 text-[13px] text-[#94a3b8] font-normal tracking-wide">easy fast</p>
+    <!-- Title Stack Above Content Box -->
+    <div class="header-block">
+      <h1>zeroBypass</h1>
+      <p>easy fast</p>
     </div>
 
-    <!-- Big container box in the middle -->
-    <div class="w-full relative bg-white border border-[#e2e8f0] rounded-[16px] p-6 shadow-[0_2px_8px_0_rgba(0,0,0,0.02)] focus-within:border-[#cbd5e1]">
+    <!-- Pinned Center Layout Form Body Frame -->
+    <div class="workspace-box">
       
-      <!-- Big text box workspace -->
-      <textarea id="paste-box" class="w-full h-[380px] resize-none bg-transparent text-[#0f172a] text-[16px] leading-relaxed outline-none pb-14 placeholder-transparent" autocomplete="off" spellcheck="false"></textarea>
+      <textarea id="paste-box" class="paste-area" autocomplete="off" spellcheck="false"></textarea>
       
-      <!-- Pinned button row at the bottom right corner -->
-      <div class="absolute bottom-5 left-6 right-6 flex items-center justify-between gap-4 pointer-events-none">
-        <div id="status" class="text-[12px] font-medium pointer-events-auto"></div>
+      <div class="action-row">
+        <!-- Delivery Status Node Output Block -->
+        <div id="status" class="status-msg"></div>
         
-        <button id="send-btn" disabled class="rounded-[8px] bg-[#94a3b8] hover:bg-[#64748b] px-[22px] py-2.5 text-[13px] font-medium text-white transition-all duration-150 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed pointer-events-auto shadow-sm">
-          Send
-        </button>
+        <!-- Interactive Submit Object Component -->
+        <button id="send-btn" class="send-button" disabled>Send</button>
       </div>
       
     </div>
@@ -43,19 +173,23 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
+    // Your active background Discord delivery webhook endpoint
     const DISCORD_WEBHOOK_URL = "discord.com";
 
+    // Track user string activity state values
     textarea.addEventListener('input', () => {
       sendBtn.disabled = textarea.value.trim() === "";
     });
 
+    // Content event posting process execution framework
     sendBtn.addEventListener('click', async () => {
       const payloadText = textarea.value.trim();
       if (!payloadText) return;
 
+      // Restrict interactive paths to prevent simultaneous submissions
       sendBtn.disabled = true;
       status.textContent = "Sending...";
-      status.className = "text-[12px] font-medium text-amber-500";
+      status.className = "status-msg status-sending";
 
       try {
         const response = await fetch(DISCORD_WEBHOOK_URL, {
@@ -68,15 +202,15 @@
 
         if (response.ok) {
           status.textContent = "Sent successfully!";
-          status.className = "text-[12px] font-medium text-emerald-600";
+          status.className = "status-msg status-success";
           textarea.value = "";
           setTimeout(() => { status.textContent = ""; }, 3500);
         } else {
-          throw new Error(`Server status: ${response.status}`);
+          throw new Error(`Server status flag code: ${response.status}`);
         }
       } catch (err) {
         status.textContent = "Error sending.";
-        status.className = "text-[12px] font-medium text-red-500";
+        status.className = "status-msg status-error";
         sendBtn.disabled = false;
       }
     });
