@@ -1,232 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NEXUS — Beam Hub</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#070710; --bg-2:#0c0c1c; --panel:#11112a; --border:#23234a;
-    --text:#e8e8ff; --muted:#8a8ab5; --primary:#7c5cff; --primary-2:#22d3ee;
-    --danger:#ff4d6d; --ok:#22c55e;
-    --glow:0 0 24px rgba(124,92,255,.45), 0 0 60px rgba(34,211,238,.18);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:
-    radial-gradient(1200px 600px at 20% -10%, #1a1040 0%, transparent 60%),
-    radial-gradient(900px 500px at 110% 10%, #062a3a 0%, transparent 55%),
-    var(--bg);color:var(--text);font-family:'Rajdhani',system-ui,sans-serif;min-height:100vh}
-  a{color:inherit;text-decoration:none}
-  .container{max-width:1200px;margin:0 auto;padding:24px}
-  header.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border);background:rgba(10,10,25,.6);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50}
-  .brand{font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:.25em;font-size:22px;background:linear-gradient(90deg,#fff,#a78bfa,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:var(--glow)}
-  nav.links a{margin-left:14px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;padding:8px 12px;border-radius:8px;border:1px solid transparent}
-  nav.links a:hover, nav.links a.active{color:#fff;border-color:var(--border);background:rgba(124,92,255,.08)}
-  h1.hero{font-family:'Orbitron',sans-serif;font-size:54px;margin:24px 0 8px;letter-spacing:.08em;background:linear-gradient(90deg,#fff,#7c5cff,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
-  p.sub{color:var(--muted);max-width:680px;font-size:18px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:24px}
-  .card{background:linear-gradient(180deg,var(--panel),var(--bg-2));border:1px solid var(--border);border-radius:14px;padding:18px;position:relative;overflow:hidden;transition:transform .15s,border-color .15s,box-shadow .15s}
-  .card:hover{transform:translateY(-3px);border-color:#3a3a7a;box-shadow:var(--glow)}
-  .card .num{position:absolute;top:12px;right:14px;font-family:'Orbitron',sans-serif;font-size:12px;color:var(--muted);letter-spacing:.2em}
-  .card h3{font-family:'Orbitron',sans-serif;margin:8px 0 6px;letter-spacing:.12em}
-  .card p{color:var(--muted);margin:0 0 14px;font-size:14px;min-height:38px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:linear-gradient(180deg,#1a1a3a,#11112a);color:#fff;font-weight:700;letter-spacing:.06em;cursor:pointer;font-family:inherit}
-  .btn:hover{border-color:var(--primary);box-shadow:var(--glow)}
-  .btn.primary{background:linear-gradient(90deg,#7c5cff,#22d3ee);border-color:transparent;color:#0a0a20}
-  .btn.danger{opacity:.6;cursor:not-allowed}
-  .row{display:flex;gap:10px;flex-wrap:wrap}
-  .section-title{font-family:'Orbitron',sans-serif;letter-spacing:.18em;margin:28px 0 10px;color:#cfcfff}
-  .linklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
-  .linklist a{display:block;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#0e0e22;font-weight:600;text-align:center}
-  .linklist a:hover{border-color:var(--primary-2);box-shadow:0 0 18px rgba(34,211,238,.25)}
-  .panel{background:linear-gradient(180deg,var(--panel),var(--bg-2));border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:14px}
-  input[type=text]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#0a0a1c;color:#fff;font-family:inherit;font-size:15px}
-  input[type=text]:focus{outline:none;border-color:var(--primary)}
-  .result{margin-top:12px;display:flex;gap:8px;align-items:stretch;flex-wrap:wrap}
-  .result code{flex:1;min-width:280px;padding:12px;border-radius:10px;border:1px dashed var(--border);background:#0a0a1c;color:#a5f3fc;font-family:ui-monospace,monospace;overflow:auto;word-break:break-all;white-space:pre-wrap}
-  footer{padding:30px 24px;color:var(--muted);text-align:center;border-top:1px solid var(--border);margin-top:40px}
-  .badge{display:inline-block;font-size:11px;letter-spacing:.18em;padding:3px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted);text-transform:uppercase;margin-left:6px}
-  .badge.off{color:var(--danger);border-color:rgba(255,77,109,.35)}
-  .badge.on{color:var(--ok);border-color:rgba(34,197,94,.35)}
-  .hide{display:none!important}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Section</title>
+    <style>
+        /* Base Styling & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Public Info Top Bar */
+        .top-bar {
+            background-color: #111827;
+            text-align: center;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #1f2937;
+            color: #f3f4f6;
+        }
+
+        .heart-emoji {
+            color: #ef4444;
+            display: inline-block;
+            margin-left: 5px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Main Workspace Grid */
+        .container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            flex: 1;
+        }
+
+        /* Left Control Panel / Sidebar */
+        .sidebar {
+            background-color: #111827;
+            border-right: 1px solid #1f2937;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #374151;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #9ca3af;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #d1d5db;
+        }
+
+        .btn {
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #4f46e5;
+        }
+
+        /* Main Showcase Area */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 40px;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #0b0f19 100%);
+        }
+
+        .admin-header {
+            font-size: 4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #a3e635, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+        }
+
+        /* Center Art / Glow Element */
+        .art-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+        }
+
+        .glow-line-pink {
+            position: absolute;
+            width: 400px;
+            height: 30px;
+            background: linear-gradient(90deg, #ec4899, #db2777);
+            transform: rotate(-45deg);
+            filter: blur(10px);
+            border-radius: 50px;
+            opacity: 0.8;
+        }
+
+        .display-text {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .display-text h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ec4899;
+            text-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .display-text p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 6px;
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Layout fixes */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid #1f2937;
+            }
+        }
+    </style>
 </head>
 <body>
-<header class="nav">
-  <div class="brand">NEXUS</div>
-  <nav class="links" id="nav">
-    <a href="#/" data-route="">Home</a>
-    <a href="#/linkhider" data-route="/linkhider">Link Hider</a>
-    <a href="#/hyperlink" data-route="/hyperlink">Hyperlink</a>
-  </nav>
-</header>
 
-<main class="container">
-  <section id="page-home">
-    <h1 class="hero">BEAM HUB</h1>
-    <p class="sub">Your one-stop launcher for Roblox generators and link tools.</p>
-
-    <h2 class="section-title">⚡ GENERATORS</h2>
-    <div class="grid" id="generators"></div>
-
-    <h2 class="section-title">🛠 TOOLS</h2>
-    <div class="grid" id="tools"></div>
-  </section>
-
-  <section id="page-linkhider" class="hide">
-    <h1 class="hero" style="font-size:38px">LINK HIDER</h1>
-    <p class="sub">Bypass / hide links through trusted hyperlink services.</p>
-    <div class="linklist" id="linkhider-list"></div>
-  </section>
-
-  <section id="page-hyperlink" class="hide">
-    <h1 class="hero" style="font-size:38px">HYPERLINK</h1>
-    <p class="sub">Paste a long URL and get a clickable markdown hyperlink.</p>
-    <div class="panel">
-      <input id="hl-input" type="text" placeholder="https://www.roblox.com/users/355161368/profile" />
-      <div class="row" style="margin-top:12px">
-        <button class="btn primary" id="hl-go">Shorten</button>
-        <button class="btn" id="hl-clear">Clear</button>
-      </div>
-      <div class="result hide" id="hl-result-wrap">
-        <code id="hl-result"></code>
-        <button class="btn" id="hl-copy">Copy</button>
-      </div>
-      <p id="hl-msg" style="color:var(--muted);margin-top:10px"></p>
+    <!-- Public Info Top Bar -->
+    <div class="top-bar">
+        PUBLIC INFO: Hamid Abdu Abdulla <span class="heart-emoji">❤️</span>
     </div>
-  </section>
-</main>
 
-<footer>© NEXUS Beam Hub</footer>
+    <!-- Main Workspace Container -->
+    <div class="container">
+        
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <div class="card">
+                <h3>System Logs</h3>
+                <p>Done — tap anywhere to arm it, then after 10s the picture zooms in and the drops occur.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Credentials</h3>
+                <p>Scroll down for the Admin Section — password required to unlock treatment modes.</p>
+            </div>
 
-<script>
-  const generators = [
-    { name:'Immortal', desc:'Premium generator suite.', url:'https://immortal.gg', external:true, disabled:false },
-    { name:'Shockify', desc:'Fast Roblox generator.', url:'https://shockify.cc', external:true, disabled:false },
-    { name:'Splunk',   desc:'Reliable item generator.', url:'https://splunk.gg',  external:true, disabled:false },
-    { name:'Sapphire', desc:'Sapphire generator access.', url:'https://roblozn.com/control/auth?ref=B3B4EE6B', external:true, disabled:false },
-    { name:'Midnight', desc:'Midnight dashboard.', url:'https://m1dnight.com/dashboard', external:true, disabled:false },
-    { name:'Injuries', desc:'Currently offline.', url:'#', external:false, disabled:true },
-  ];
-  const tools = [
-    { name:'Bypasser', desc:'Open the Link Hider bypass tools.', url:'#/linkhider' },
-    { name:'Hyperlink', desc:'Shorten any URL instantly.', url:'#/hyperlink' },
-  ];
-  const hyperlinkSites = [
-    {name:'Linkvertise',url:'https://linkvertise.com'},{name:'Lootlabs',url:'https://lootlabs.gg'},
-    {name:'Boost.ink',url:'https://boost.ink'},{name:'WorkInk',url:'https://workink.net'},
-    {name:'Mboost',url:'https://mboost.me'},{name:'Sub2Unlock',url:'https://sub2unlock.com'},
-    {name:'PixelDrain',url:'https://pixeldrain.com'},{name:'AdLinkFly',url:'https://adlinkfly.com'},
-    {name:'Shrinkme',url:'https://shrinkme.io'},{name:'Ouo.io',url:'https://ouo.io'},
-    {name:'Adfly',url:'https://adf.ly'},{name:'Shortest',url:'https://shorte.st'},
-    {name:'Linkpays',url:'https://linkpays.in'},{name:'Earn4Link',url:'https://earn4link.com'},
-    {name:'Cuty.io',url:'https://cuty.io'},{name:'Clk.sh',url:'https://clk.sh'},
-    {name:'Za.gl',url:'https://za.gl'},{name:'Exe.io',url:'https://exe.io'},
-    {name:'Gplinks',url:'https://gplinks.in'},{name:'Droplink',url:'https://droplink.co'},
-  ];
+            <button class="btn">Upgrade Now</button>
+        </aside>
 
-  function cardHTML(item){
-    const badge = item.disabled
-      ? '<span class="badge off">Offline</span>'
-      : '<span class="badge on">Online</span>';
-    const btn = item.disabled
-      ? '<button class="btn danger" disabled>Unavailable</button>'
-      : (item.external
-          ? `<a class="btn primary" href="${item.url}" target="_blank" rel="noopener">Launch ↗</a>`
-          : `<a class="btn primary" href="${item.url}">Open →</a>`);
-    return `<div class="card"><div class="num">${String(item.n).padStart(2,'0')}</div>
-      <h3>${item.name} ${badge}</h3><p>${item.desc}</p>${btn}</div>`;
-  }
+        <!-- Main Graphic Dashboard Elements -->
+        <main class="main-content">
+            <div class="admin-header">Admin Section</div>
+            
+            <div class="art-wrapper">
+                <!-- Pink Neon Accent Line -->
+                <div class="glow-line-pink"></div>
+                
+                <!-- Front Text Overlay -->
+                <div class="display-text">
+                    <h1>ABDU</h1>
+                    <p>YARA - YARA - YARA</p>
+                </div>
+            </div>
+        </main>
+    </div>
 
-  function render(){
-    document.getElementById('generators').innerHTML =
-      generators.map((g,i)=>cardHTML({...g,n:i+1})).join('');
-    document.getElementById('tools').innerHTML =
-      tools.map((t,i)=>cardHTML({...t,n:i+1,external:false,disabled:false})).join('');
-    document.getElementById('linkhider-list').innerHTML =
-      hyperlinkSites.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join('');
-  }
-
-  const pages = { '':'page-home','/':'page-home','/linkhider':'page-linkhider','/hyperlink':'page-hyperlink' };
-  function route(){
-    const hash = location.hash.replace(/^#/,'') || '';
-    const id = pages[hash] || 'page-home';
-    ['page-home','page-linkhider','page-hyperlink'].forEach(p=>{
-      document.getElementById(p).classList.toggle('hide', p!==id);
-    });
-    document.querySelectorAll('#nav a').forEach(a=>{
-      a.classList.toggle('active', a.dataset.route === (hash||''));
-    });
-    window.scrollTo({top:0,behavior:'instant'});
-  }
-  window.addEventListener('hashchange', route);
-
-  // CORS-friendly shorteners (work from static GitHub Pages / Vercel)
-  async function shorten(url){
-    // 1) cleanuri.com — POST form, JSON response, CORS enabled
-    try{
-      const r = await fetch('https://cleanuri.com/api/v1/shorten', {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:'url=' + encodeURIComponent(url)
-      });
-      if(r.ok){
-        const j = await r.json();
-        if(j && j.result_url) return j.result_url;
-      }
-    }catch(e){}
-    // 2) spoo.me — JSON response, CORS enabled
-    try{
-      const r = await fetch('https://spoo.me/', {
-        method:'POST',
-        headers:{'Accept':'application/json','Content-Type':'application/x-www-form-urlencoded'},
-        body:'url=' + encodeURIComponent(url)
-      });
-      if(r.ok){
-        const j = await r.json();
-        if(j && j.short_url) return j.short_url;
-      }
-    }catch(e){}
-    // 3) is.gd — plain text, CORS enabled
-    try{
-      const r = await fetch('https://is.gd/create.php?format=simple&url=' + encodeURIComponent(url));
-      if(r.ok){ const t = (await r.text()).trim(); if(t.startsWith('http')) return t; }
-    }catch(e){}
-    throw new Error('All shortener services failed. Try again in a moment.');
-  }
-
-  document.addEventListener('DOMContentLoaded', ()=>{
-    render(); route();
-    const input = document.getElementById('hl-input');
-    const go = document.getElementById('hl-go');
-    const clear = document.getElementById('hl-clear');
-    const wrap = document.getElementById('hl-result-wrap');
-    const out = document.getElementById('hl-result');
-    const copy = document.getElementById('hl-copy');
-    const msg = document.getElementById('hl-msg');
-
-    go.addEventListener('click', async ()=>{
-      const url = input.value.trim();
-      msg.textContent=''; wrap.classList.add('hide');
-      if(!/^https?:\/\//i.test(url)){ msg.textContent='Enter a valid URL starting with http:// or https://'; return; }
-      go.disabled=true; go.textContent='Shortening...';
-      try{
-        const short = await shorten(url);
-        // Markdown hyperlink format: [original](short)
-        out.textContent = `[${url}](${short})`;
-        wrap.classList.remove('hide');
-        msg.textContent = 'Copy and paste this into Discord, Reddit, GitHub, etc.';
-      }catch(e){ msg.textContent = e.message; }
-      finally{ go.disabled=false; go.textContent='Shorten'; }
-    });
-    clear.addEventListener('click', ()=>{ input.value=''; wrap.classList.add('hide'); msg.textContent=''; });
-    copy.addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(out.textContent); copy.textContent='Copied!'; setTimeout(()=>copy.textContent='Copy',1200); }catch{}
-    });
-  });
-</script>
 </body>
 </html>
